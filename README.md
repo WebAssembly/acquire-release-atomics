@@ -1,13 +1,13 @@
-# Threads Proposal for WebAssembly
+# Relaxed Atomic  Proposal for WebAssembly
 
 This repository is a clone of github.com/WebAssembly/spec/. It is meant for
-discussion, prototype specification and implementation of a proposal to threads
+discussion, prototype specification and implementation of a proposal to relaxed atomics
 support to WebAssembly.
 
-See the [overview](proposals/threads/Overview.md) for a summary of the proposal.
+See the [overview](proposals/relaxed-atomics/Overview.md) for a summary of the proposal.
 
 A formatted version of the spec with proposed changes is available here:
-[webassembly.github.io/threads](https://webassembly.github.io/threads/).
+[webassembly.github.io/threads](https://webassembly.github.io/relaxed-atomics/).
 
 Original README from upstream repository follows...
 
