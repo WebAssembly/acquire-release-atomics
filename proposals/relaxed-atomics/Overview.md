@@ -8,7 +8,9 @@ The Relaxed Atomics proposal introduces weaker memory orderings and spinlock rel
 
 ## Motivations
 
-The baseline [threads] proposal introduced shared linear memory and atomic operations, but restricted all atomic accesses to sequentially consistent (`seqcst`) ordering. While sequential consistency simplifies reasoning about multithreaded programs, it imposes significant performance overheads on modern weak-ordered hardware architectures because it requires heavyweight synchronization barriers. However, release-acquire ordering is often sufficient to implement efficient concurrent data structures without the full cost of sequential consistency.
+The baseline [threads] proposal introduced shared linear memory and atomic operations, but restricted all atomic accesses to sequentially consistent (`seqcst`) ordering. While sequential consistency simplifies reasoning about multithreaded programs, it imposes significant performance overheads on modern weak-ordered hardware architectures because it requires heavyweight synchronization barriers.
+
+To improve performance for linear memory languages using threading (e.g., C, C++, and Rust), and to lay the groundwork for compiling languages targeting WasmGC that have stronger memory models (e.g., Java and OCaml), release-acquire ordering is introduced. It provides an intermediate memory order that is stronger than unordered accesses but weaker than sequential consistency, which is often sufficient to implement efficient concurrent data structures without the full cost of sequential consistency.
 
 ## Goals
 
@@ -28,12 +30,16 @@ We introduce `acqrel` (acquire-release) as a new memory ordering.
 - **Acquire-Release fences**: A fence instruction with `acqrel` ordering acts as both an acquire and a release barrier.
 - **Acquire-Release RMWs**: Read-modify-write instructions with `acqrel` ordering perform an acquire read followed by a release write.
 
+> Note: We may want to add separate `acquire` and `release` orderings to express weaker fences.
+
 #### Binary Format (Memory Accesses)
 
 For instructions that operate on linear memory and use a `memarg` immediate, we utilize bit 5 of the `memarg` flag byte to indicate the presence of an ordering immediate.
 
 - If bit 5 of `memarg` is **0**: The instruction defaults to sequentially consistent (`seqcst`) ordering (maintaining backward compatibility with the threads proposal).
 - If bit 5 of `memarg` is **1**: An ordering immediate follows the `memarg` (and follows the memory index immediate, if present).
+
+It is a validation error if there is an ordering immediate present for any non-atomic instruction that uses a `memarg` (such as standard loads and stores).
 
 The ordering immediate is encoded as a `u8`:
 
@@ -47,6 +53,8 @@ For Read-Modify-Write (RMW) operations (including `cmpxchg`), the ordering immed
 - The **high 4 bits** encode the write ordering.
 
 Currently, RMW operations require both orderings to match (i.e., both must be `seqcst` or both must be `acqrel`). Thus, the immediate will be `0x00` for `seqcst` or `0x11` for `acqrel`.
+
+> Note: We may also want to give cmpxchg a third ordering, since some compilation schemes are able to give its read different orderings depending on whether it succeeds or fails.
 
 For other atomic operations (loads, stores), the low 4 bits encode the ordering, and the high 4 bits must be 0.
 
