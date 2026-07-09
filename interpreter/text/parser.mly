@@ -219,7 +219,7 @@ let inline_type_explicit (c : context) x ft at =
 %token MEMORY_SIZE MEMORY_GROW MEMORY_FILL MEMORY_COPY MEMORY_INIT DATA_DROP
 %token<int option -> Memory.offset -> Ast.instr'> LOAD STORE
 %token<int option -> Memory.offset -> Ast.instr'> MEMORY_ATOMIC_WAIT MEMORY_ATOMIC_NOTIFY
-%token<int option -> Memory.offset -> Ast.instr'> ATOMIC_LOAD ATOMIC_STORE ATOMIC_RMW ATOMIC_RMW_CMPXCHG
+%token<Ast.ordering -> int option -> Memory.offset -> Ast.instr'> ATOMIC_LOAD ATOMIC_STORE ATOMIC_RMW ATOMIC_RMW_CMPXCHG
 %token ATOMIC_FENCE
 %token<string> OFFSET_EQ_NAT ALIGN_EQ_NAT
 %token<string Source.phrase -> Ast.instr' * Values.num> CONST
@@ -242,6 +242,7 @@ let inline_type_explicit (c : context) x ft at =
 %token<Script.nan> NAN
 %token EITHER
 %token INPUT OUTPUT
+%token ACQREL SEQCST
 %token EOF
 
 %start script script1 module1
@@ -369,6 +370,11 @@ align_opt :
         error (at ()) "alignment must be a power of two";
       Some (Lib.Int.log2 n) }
 
+ordering_opt :
+  | /* empty */ { SeqCst }
+  | ACQREL { AcqRel }
+  | SEQCST { SeqCst }
+
 
 /* Instructions & Expressions */
 
@@ -453,10 +459,10 @@ plain_instr :
   | MEMORY_ATOMIC_WAIT offset_opt align_opt { fun c -> $1 $3 $2 }
   | MEMORY_ATOMIC_NOTIFY offset_opt align_opt { fun c -> $1 $3 $2 }
   | ATOMIC_FENCE { fun c -> atomic_fence }
-  | ATOMIC_LOAD offset_opt align_opt { fun c -> $1 $3 $2 }
-  | ATOMIC_STORE offset_opt align_opt { fun c -> $1 $3 $2 }
-  | ATOMIC_RMW offset_opt align_opt { fun c -> $1 $3 $2 }
-  | ATOMIC_RMW_CMPXCHG offset_opt align_opt { fun c -> $1 $3 $2 }
+  | ATOMIC_LOAD ordering_opt offset_opt align_opt { fun c -> $1 $2 $4 $3 }
+  | ATOMIC_STORE ordering_opt offset_opt align_opt { fun c -> $1 $2 $4 $3 }
+  | ATOMIC_RMW ordering_opt offset_opt align_opt { fun c -> $1 $2 $4 $3 }
+  | ATOMIC_RMW_CMPXCHG ordering_opt offset_opt align_opt { fun c -> $1 $2 $4 $3 }
 
 
 select_instr_instr_list :
