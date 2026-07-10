@@ -119,7 +119,7 @@ type vec_splatop = (V128Op.splatop) Values.vecop
 type vec_extractop = (V128Op.extractop) Values.vecop
 type vec_replaceop = (V128Op.replaceop) Values.vecop
 
-type ordering = SeqCst
+type ordering = SeqCst | AcqRel
 type unordered = Unordered
 
 type ('t, 'p, 'o) memop = {ty : 't; align : int; offset : int32; pack : 'p; ordering : 'o}
