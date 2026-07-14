@@ -34,10 +34,10 @@ We introduce `acqrel` (acquire-release) as a new memory ordering.
 
 #### Binary Format (Memory Accesses)
 
-For instructions that operate on linear memory and use a `memarg` immediate, we utilize bit 5 of the `memarg` flag byte to indicate the presence of an ordering immediate.
+For instructions that operate on linear memory and use a `memarg` immediate, we utilize bit 4 of the `memarg` flag byte to indicate the presence of an ordering immediate.
 
-- If bit 5 of `memarg` is **0**: The instruction defaults to sequentially consistent (`seqcst`) ordering (maintaining backward compatibility with the threads proposal).
-- If bit 5 of `memarg` is **1**: An ordering immediate follows the `memarg` (and follows the memory index immediate, if present).
+- If bit 4 of `memarg` is **0**: The instruction defaults to sequentially consistent (`seqcst`) ordering (maintaining backward compatibility with the threads proposal).
+- If bit 4 of `memarg` is **1**: An ordering immediate follows the `memarg` (and follows the memory index immediate, if present).
 
 It is a validation error if there is an ordering immediate present for any non-atomic instruction that uses a `memarg` (such as standard loads and stores).
 
