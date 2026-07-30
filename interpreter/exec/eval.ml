@@ -550,7 +550,7 @@ let rec step_thread (t : thread) : thread * action =
             Plain (Const (I32 i @@ e.at));
             Plain (Const (k @@ e.at));
             Plain (Store
-              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8});
+              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8; ordering = Unordered});
             Plain (Const (I32 (I32.add i 1l) @@ e.at));
             Plain (Const (k @@ e.at));
             Plain (Const (I32 (I32.sub n 1l) @@ e.at));
@@ -567,9 +567,9 @@ let rec step_thread (t : thread) : thread * action =
             Plain (Const (I32 d @@ e.at));
             Plain (Const (I32 s @@ e.at));
             Plain (Load
-              {ty = I32Type; align = 0; offset = 0l; pack = Some (Pack8, ZX)});
+              {ty = I32Type; align = 0; offset = 0l; pack = Some (Pack8, ZX); ordering = Unordered});
             Plain (Store
-              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8});
+              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8; ordering = Unordered});
             Plain (Const (I32 (I32.add d 1l) @@ e.at));
             Plain (Const (I32 (I32.add s 1l) @@ e.at));
             Plain (Const (I32 (I32.sub n 1l) @@ e.at));
@@ -584,9 +584,9 @@ let rec step_thread (t : thread) : thread * action =
             Plain (Const (I32 d @@ e.at));
             Plain (Const (I32 s @@ e.at));
             Plain (Load
-              {ty = I32Type; align = 0; offset = 0l; pack = Some (Pack8, ZX)});
+              {ty = I32Type; align = 0; offset = 0l; pack = Some (Pack8, ZX); ordering = Unordered});
             Plain (Store
-              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8});
+              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8; ordering = Unordered});
           ], NoAction
 
       | MemoryInit x, Num (I32 n) :: Num (I32 s) :: Num (I32 d) :: vs' ->
@@ -602,7 +602,7 @@ let rec step_thread (t : thread) : thread * action =
             Plain (Const (I32 d @@ e.at));
             Plain (Const (I32 (I32.of_int_u (Char.code b)) @@ e.at));
             Plain (Store
-              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8});
+              {ty = I32Type; align = 0; offset = 0l; pack = Some Pack8; ordering = Unordered});
             Plain (Const (I32 (I32.add d 1l) @@ e.at));
             Plain (Const (I32 (I32.add s 1l) @@ e.at));
             Plain (Const (I32 (I32.sub n 1l) @@ e.at));
