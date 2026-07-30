@@ -226,6 +226,20 @@ let memop s =
   let offset = u32 s in
   Int32.to_int align, offset
 
+let ordering s = match u32 s with
+| 0l -> SeqCst
+| 1l -> AcqRel
+| _  -> error s (pos s) "expected ordering immediate"
+
+let atomicmemop s =
+  let align = u32 s in
+  require (I32.le_u align 32l) s (pos s - 1) "malformed memop flags";
+  let (ord, unmasked_align) = match I32.and_ align (I32.shl 1l 4l) with
+    | 0l -> (SeqCst, align)
+    | _  -> (ordering s, I32.and_ align (Int32.lognot (I32.shl 1l 4l))) in
+  let offset = u32 s in
+  Int32.to_int unmasked_align, ord, offset
+
 let block_type s =
   let p = pos s in
   either [
@@ -785,7 +799,7 @@ let rec instr s =
     | 0x02 -> let a, o = memop s in memory_atomic_wait64 a o
     | 0x03 -> expect 0x00 s "zero flag expected"; atomic_fence
 
-    | 0x10 -> let a, o = memop s in i32_atomic_load a o SeqCst
+    | 0x10 -> let a, ord, o = atomicmemop s in i32_atomic_load a o ord
     | 0x11 -> let a, o = memop s in i64_atomic_load a o
     | 0x12 -> let a, o = memop s in i32_atomic_load8_u a o
     | 0x13 -> let a, o = memop s in i32_atomic_load16_u a o

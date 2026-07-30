@@ -17,3 +17,35 @@
   )
   "unexpected token")
 
+(module binary
+  "\00asm\01\00\00\00" ;; Wasm header
+  "\01\04\01" ;; Type section
+    "\60\00\00" ;; $test-all-ops type
+  "\03\02\01\00" ;; Function section
+  "\05\04\01" ;; Memory section
+    "\01\01\01" ;; (memory 1 1)
+  "\0a\1b\01" ;; Code section
+  "\19\00" ;; func $test-all-ops
+
+    "\41\00" ;; (i32.const 0)
+    "\fe\10" ;; i32.atomic.load
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\fe\10" ;; i32.atomic.load
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\01" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\fe\10" ;; i32.atomic.load
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\0b" ;; end
+)

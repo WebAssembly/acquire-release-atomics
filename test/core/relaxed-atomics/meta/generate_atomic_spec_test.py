@@ -328,9 +328,8 @@ def binary_test():
 "\01\04\01" ;; Type section
   "\60\00\00" ;; {FUNC_NAME} type
 "\03\02\01\00" ;; Function section
-"\05\07\02" ;; Memory section
-  "\01\01\01" ;; (memory i32 1 1)
-  "\05\01\01" ;; (memory i64 1 1)'''
+"\05\04\01" ;; Memory section
+  "\01\01\01" ;; (memory 1 1)'''
     return module_binary(header + "\n" + binary_func_body())
 
 
@@ -342,7 +341,7 @@ def main():
     print()
     print(invalid_text_test())
     print()
-    # print(binary_test())
+    print(binary_test())
     # print()
     # print(acqrel_execution_tests)
 
