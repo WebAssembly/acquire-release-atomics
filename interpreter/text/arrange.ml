@@ -403,10 +403,16 @@ let memop_without_type name {align; offset; _} sz =
   (if offset = 0l then "" else " offset=" ^ nat32 offset) ^
   (if 1 lsl align = sz then "" else " align=" ^ nat (1 lsl align))
 
-let memop name typ {ty; align; offset; _} sz =
+let memop name typ ({ty; align; offset; _} : (('t, 'p, unordered) memop)) sz =
   typ ty ^ "." ^ name ^
   (if offset = 0l then "" else " offset=" ^ nat32 offset) ^
   (if 1 lsl align = sz then "" else " align=" ^ nat (1 lsl align))
+
+let atomicmemop name typ ({ty; align; offset; ordering; _} as memop_ : (('t, 'p, ordering) memop)) sz =
+  memop name typ {memop_ with ordering = Unordered} sz ^ match ordering with
+    | AcqRel -> " acqrel"
+    (* This is the default, no need to write it. *)
+    | SeqCst -> ""
 
 let loadop op =
   match op.pack with
@@ -446,28 +452,28 @@ let memoryatomicnotifyop op =
 
 let atomicloadop op =
   match op.pack with
-  | None -> memop "atomic.load" num_type  op (num_size op.ty)
+  | None -> atomicmemop "atomic.load" num_type  op (num_size op.ty)
   | Some sz ->
-    memop ("atomic.load" ^ pack_size sz ^ "_u") num_type op (packed_size sz)
+    atomicmemop ("atomic.load" ^ pack_size sz ^ "_u") num_type op (packed_size sz)
 
 let atomicstoreop op =
   match op.pack with
-  | None -> memop "atomic.store" num_type op (num_size op.ty)
+  | None -> atomicmemop "atomic.store" num_type op (num_size op.ty)
   | Some sz ->
-    memop ("atomic.store" ^ pack_size sz) num_type op (packed_size sz)
+    atomicmemop ("atomic.store" ^ pack_size sz) num_type op (packed_size sz)
 
 let atomicrmwop op rmw_op =
   match op.pack with
-  | None -> memop ("atomic.rmw." ^ rmwop rmw_op) num_type op (num_size op.ty)
+  | None -> atomicmemop ("atomic.rmw." ^ rmwop rmw_op) num_type op (num_size op.ty)
   | Some sz ->
-    memop ("atomic.rmw" ^ pack_size sz ^ "." ^ rmwop rmw_op ^ "_u") num_type op
+    atomicmemop ("atomic.rmw" ^ pack_size sz ^ "." ^ rmwop rmw_op ^ "_u") num_type op
       (packed_size sz)
 
 let atomicrmwcmpxchgop op =
   match op.pack with
-  | None -> memop "atomic.rmw.cmpxchg" num_type op (num_size op.ty)
+  | None -> atomicmemop "atomic.rmw.cmpxchg" num_type op (num_size op.ty)
   | Some sz ->
-    memop ("atomic.rmw" ^ pack_size sz ^ ".cmpxchg_u") num_type op (packed_size sz)
+    atomicmemop ("atomic.rmw" ^ pack_size sz ^ ".cmpxchg_u") num_type op (packed_size sz)
 
 (* Expressions *)
 
