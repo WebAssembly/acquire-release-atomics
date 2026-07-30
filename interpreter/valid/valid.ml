@@ -191,7 +191,7 @@ let check_vec_binop binop at =
 
 type mem_mode = NonAtomic | Atomic
 
-let check_memop (mode : mem_mode) (c : context) (memop : ('t, 's) memop) ty_size get_sz at =
+let check_memop (mode : mem_mode) (c : context) (memop : ('t, 's, 'o) memop) ty_size get_sz at =
   let _mt = memory c (0l @@ at) in
   let size =
     match get_sz memop.pack with

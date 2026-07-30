@@ -43,116 +43,116 @@ let table_copy x y = TableCopy (x, y)
 let table_init x y = TableInit (x, y)
 let elem_drop x = ElemDrop x
 
-let i32_load align offset = Load {ty = I32Type; align; offset; pack = None}
-let i64_load align offset = Load {ty = I64Type; align; offset; pack = None}
-let f32_load align offset = Load {ty = F32Type; align; offset; pack = None}
-let f64_load align offset = Load {ty = F64Type; align; offset; pack = None}
+let i32_load align offset = Load {ty = I32Type; align; offset; pack = None; ordering = Unordered}
+let i64_load align offset = Load {ty = I64Type; align; offset; pack = None; ordering = Unordered}
+let f32_load align offset = Load {ty = F32Type; align; offset; pack = None; ordering = Unordered}
+let f64_load align offset = Load {ty = F64Type; align; offset; pack = None; ordering = Unordered}
 let i32_load8_s align offset =
-  Load {ty = I32Type; align; offset; pack = Some (Pack8, SX)}
+  Load {ty = I32Type; align; offset; pack = Some (Pack8, SX); ordering = Unordered}
 let i32_load8_u align offset =
-  Load {ty = I32Type; align; offset; pack = Some (Pack8, ZX)}
+  Load {ty = I32Type; align; offset; pack = Some (Pack8, ZX); ordering = Unordered}
 let i32_load16_s align offset =
-  Load {ty = I32Type; align; offset; pack = Some (Pack16, SX)}
+  Load {ty = I32Type; align; offset; pack = Some (Pack16, SX); ordering = Unordered}
 let i32_load16_u align offset =
-  Load {ty = I32Type; align; offset; pack = Some (Pack16, ZX)}
+  Load {ty = I32Type; align; offset; pack = Some (Pack16, ZX); ordering = Unordered}
 let i64_load8_s align offset =
-  Load {ty = I64Type; align; offset; pack = Some (Pack8, SX)}
+  Load {ty = I64Type; align; offset; pack = Some (Pack8, SX); ordering = Unordered}
 let i64_load8_u align offset =
-  Load {ty = I64Type; align; offset; pack = Some (Pack8, ZX)}
+  Load {ty = I64Type; align; offset; pack = Some (Pack8, ZX); ordering = Unordered}
 let i64_load16_s align offset =
-  Load {ty = I64Type; align; offset; pack = Some (Pack16, SX)}
+  Load {ty = I64Type; align; offset; pack = Some (Pack16, SX); ordering = Unordered}
 let i64_load16_u align offset =
-  Load {ty = I64Type; align; offset; pack = Some (Pack16, ZX)}
+  Load {ty = I64Type; align; offset; pack = Some (Pack16, ZX); ordering = Unordered}
 let i64_load32_s align offset =
-  Load {ty = I64Type; align; offset; pack = Some (Pack32, SX)}
+  Load {ty = I64Type; align; offset; pack = Some (Pack32, SX); ordering = Unordered}
 let i64_load32_u align offset =
-  Load {ty = I64Type; align; offset; pack = Some (Pack32, ZX)}
+  Load {ty = I64Type; align; offset; pack = Some (Pack32, ZX); ordering = Unordered}
 
-let i32_store align offset = Store {ty = I32Type; align; offset; pack = None}
-let i64_store align offset = Store {ty = I64Type; align; offset; pack = None}
-let f32_store align offset = Store {ty = F32Type; align; offset; pack = None}
-let f64_store align offset = Store {ty = F64Type; align; offset; pack = None}
+let i32_store align offset = Store {ty = I32Type; align; offset; pack = None; ordering = Unordered}
+let i64_store align offset = Store {ty = I64Type; align; offset; pack = None; ordering = Unordered}
+let f32_store align offset = Store {ty = F32Type; align; offset; pack = None; ordering = Unordered}
+let f64_store align offset = Store {ty = F64Type; align; offset; pack = None; ordering = Unordered}
 let i32_store8 align offset =
-  Store {ty = I32Type; align; offset; pack = Some Pack8}
+  Store {ty = I32Type; align; offset; pack = Some Pack8; ordering = Unordered}
 let i32_store16 align offset =
-  Store {ty = I32Type; align; offset; pack = Some Pack16}
+  Store {ty = I32Type; align; offset; pack = Some Pack16; ordering = Unordered}
 let i64_store8 align offset =
-  Store {ty = I64Type; align; offset; pack = Some Pack8}
+  Store {ty = I64Type; align; offset; pack = Some Pack8; ordering = Unordered}
 let i64_store16 align offset =
-  Store {ty = I64Type; align; offset; pack = Some Pack16}
+  Store {ty = I64Type; align; offset; pack = Some Pack16; ordering = Unordered}
 let i64_store32 align offset =
-  Store {ty = I64Type; align; offset; pack = Some Pack32}
+  Store {ty = I64Type; align; offset; pack = Some Pack32; ordering = Unordered}
 
 let memory_atomic_notify align offset =
-  MemoryAtomicNotify {ty = I32Type; align; offset; pack = None}
+  MemoryAtomicNotify {ty = I32Type; align; offset; pack = None; ordering = SeqCst}
 
 let memory_atomic_wait32 align offset =
-  MemoryAtomicWait {ty = I32Type; align; offset; pack = None}
+  MemoryAtomicWait {ty = I32Type; align; offset; pack = None; ordering = SeqCst}
 let memory_atomic_wait64 align offset =
-  MemoryAtomicWait {ty = I64Type; align; offset; pack = None}
+  MemoryAtomicWait {ty = I64Type; align; offset; pack = None; ordering = SeqCst}
 
 let atomic_fence =
   AtomicFence
 
 let i32_atomic_load align offset =
-  AtomicLoad {ty = I32Type; align; offset; pack = None}
+  AtomicLoad {ty = I32Type; align; offset; pack = None; ordering = SeqCst}
 let i64_atomic_load align offset =
-  AtomicLoad {ty = I64Type; align; offset; pack = None}
+  AtomicLoad {ty = I64Type; align; offset; pack = None; ordering = SeqCst}
 let i32_atomic_load8_u align offset =
-  AtomicLoad {ty = I32Type; align; offset; pack = Some Pack8}
+  AtomicLoad {ty = I32Type; align; offset; pack = Some Pack8; ordering = SeqCst}
 let i32_atomic_load16_u align offset =
-  AtomicLoad {ty = I32Type; align; offset; pack = Some Pack16}
+  AtomicLoad {ty = I32Type; align; offset; pack = Some Pack16; ordering = SeqCst}
 let i64_atomic_load8_u align offset =
-  AtomicLoad {ty = I64Type; align; offset; pack = Some Pack8}
+  AtomicLoad {ty = I64Type; align; offset; pack = Some Pack8; ordering = SeqCst}
 let i64_atomic_load16_u align offset =
-  AtomicLoad {ty = I64Type; align; offset; pack = Some Pack16}
+  AtomicLoad {ty = I64Type; align; offset; pack = Some Pack16; ordering = SeqCst}
 let i64_atomic_load32_u align offset =
-  AtomicLoad {ty = I64Type; align; offset; pack = Some Pack32}
+  AtomicLoad {ty = I64Type; align; offset; pack = Some Pack32; ordering = SeqCst}
 
 let i32_atomic_store align offset =
-  AtomicStore {ty = I32Type; align; offset; pack = None}
+  AtomicStore {ty = I32Type; align; offset; pack = None; ordering = SeqCst}
 let i64_atomic_store align offset =
-  AtomicStore {ty = I64Type; align; offset; pack = None}
+  AtomicStore {ty = I64Type; align; offset; pack = None; ordering = SeqCst}
 let i32_atomic_store8 align offset =
-  AtomicStore {ty = I32Type; align; offset; pack = Some Pack8}
+  AtomicStore {ty = I32Type; align; offset; pack = Some Pack8; ordering = SeqCst}
 let i32_atomic_store16 align offset =
-  AtomicStore {ty = I32Type; align; offset; pack = Some Pack16}
+  AtomicStore {ty = I32Type; align; offset; pack = Some Pack16; ordering = SeqCst}
 let i64_atomic_store8 align offset =
-  AtomicStore {ty = I64Type; align; offset; pack = Some Pack8}
+  AtomicStore {ty = I64Type; align; offset; pack = Some Pack8; ordering = SeqCst}
 let i64_atomic_store16 align offset =
-  AtomicStore {ty = I64Type; align; offset; pack = Some Pack16}
+  AtomicStore {ty = I64Type; align; offset; pack = Some Pack16; ordering = SeqCst}
 let i64_atomic_store32 align offset =
-  AtomicStore {ty = I64Type; align; offset; pack = Some Pack32}
+  AtomicStore {ty = I64Type; align; offset; pack = Some Pack32; ordering = SeqCst}
 
 let i32_atomic_rmw rmwop align offset =
-  AtomicRmw (rmwop, {ty = I32Type; align; offset; pack = None})
+  AtomicRmw (rmwop, {ty = I32Type; align; offset; pack = None; ordering = SeqCst})
 let i64_atomic_rmw rmwop align offset =
-  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = None})
+  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = None; ordering = SeqCst})
 let i32_atomic_rmw8_u rmwop align offset =
-  AtomicRmw (rmwop, {ty = I32Type; align; offset; pack = Some Pack8})
+  AtomicRmw (rmwop, {ty = I32Type; align; offset; pack = Some Pack8; ordering = SeqCst})
 let i32_atomic_rmw16_u rmwop align offset =
-  AtomicRmw (rmwop, {ty = I32Type; align; offset; pack = Some Pack16})
+  AtomicRmw (rmwop, {ty = I32Type; align; offset; pack = Some Pack16; ordering = SeqCst})
 let i64_atomic_rmw8_u rmwop align offset =
-  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = Some Pack8})
+  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = Some Pack8; ordering = SeqCst})
 let i64_atomic_rmw16_u rmwop align offset =
-  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = Some Pack16})
+  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = Some Pack16; ordering = SeqCst})
 let i64_atomic_rmw32_u rmwop align offset =
-  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = Some Pack32})
+  AtomicRmw (rmwop, {ty = I64Type; align; offset; pack = Some Pack32; ordering = SeqCst})
 
 let i32_atomic_rmw_cmpxchg align offset =
-  AtomicRmwCmpXchg {ty = I32Type; align; offset; pack = None}
+  AtomicRmwCmpXchg {ty = I32Type; align; offset; pack = None; ordering = SeqCst}
 let i64_atomic_rmw_cmpxchg align offset =
-  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = None}
+  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = None; ordering = SeqCst}
 let i32_atomic_rmw8_u_cmpxchg align offset =
-  AtomicRmwCmpXchg {ty = I32Type; align; offset; pack = Some Pack8}
+  AtomicRmwCmpXchg {ty = I32Type; align; offset; pack = Some Pack8; ordering = SeqCst}
 let i32_atomic_rmw16_u_cmpxchg align offset =
-  AtomicRmwCmpXchg {ty = I32Type; align; offset; pack = Some Pack16}
+  AtomicRmwCmpXchg {ty = I32Type; align; offset; pack = Some Pack16; ordering = SeqCst}
 let i64_atomic_rmw8_u_cmpxchg align offset =
-  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = Some Pack8}
+  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = Some Pack8; ordering = SeqCst}
 let i64_atomic_rmw16_u_cmpxchg align offset =
-  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = Some Pack16}
+  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = Some Pack16; ordering = SeqCst}
 let i64_atomic_rmw32_u_cmpxchg align offset =
-  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = Some Pack32}
+  AtomicRmwCmpXchg {ty = I64Type; align; offset; pack = Some Pack32; ordering = SeqCst}
 
 let memory_size = MemorySize
 let memory_grow = MemoryGrow
@@ -305,51 +305,51 @@ let i64_reinterpret_f64 = Convert (I64 I64Op.ReinterpretFloat)
 let f32_reinterpret_i32 = Convert (F32 F32Op.ReinterpretInt)
 let f64_reinterpret_i64 = Convert (F64 F64Op.ReinterpretInt)
 
-let v128_load align offset = VecLoad {ty = V128Type; align; offset; pack = None}
+let v128_load align offset = VecLoad {ty = V128Type; align; offset; pack = None; ordering = Unordered}
 let v128_load8x8_s align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack8x8, SX))}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack8x8, SX)); ordering = Unordered}
 let v128_load8x8_u align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack8x8, ZX))}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack8x8, ZX)); ordering = Unordered}
 let v128_load16x4_s align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack16x4, SX))}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack16x4, SX)); ordering = Unordered}
 let v128_load16x4_u align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack16x4, ZX))}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack16x4, ZX)); ordering = Unordered}
 let v128_load32x2_s align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack32x2, SX))}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack32x2, SX)); ordering = Unordered}
 let v128_load32x2_u align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack32x2, ZX))}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtLane (Pack32x2, ZX)); ordering = Unordered}
 let v128_load8_splat align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack8, ExtSplat)}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack8, ExtSplat); ordering = Unordered}
 let v128_load16_splat align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack16, ExtSplat)}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack16, ExtSplat); ordering = Unordered}
 let v128_load32_splat align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack32, ExtSplat)}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack32, ExtSplat); ordering = Unordered}
 let v128_load64_splat align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtSplat)}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtSplat); ordering = Unordered}
 let v128_load32_zero align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack32, ExtZero)}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack32, ExtZero); ordering = Unordered}
 let v128_load64_zero align offset =
-  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtZero)}
+  VecLoad {ty = V128Type; align; offset; pack = Some (Pack64, ExtZero); ordering = Unordered}
 
-let v128_store align offset = VecStore {ty = V128Type; align; offset; pack = ()}
+let v128_store align offset = VecStore {ty = V128Type; align; offset; pack = (); ordering = Unordered}
 
 let v128_load8_lane align offset i =
-  VecLoadLane ({ty = V128Type; align; offset; pack = Pack8}, i)
+  VecLoadLane ({ty = V128Type; align; offset; pack = Pack8; ordering = Unordered}, i)
 let v128_load16_lane align offset i =
-  VecLoadLane ({ty = V128Type; align; offset; pack = Pack16}, i)
+  VecLoadLane ({ty = V128Type; align; offset; pack = Pack16; ordering = Unordered}, i)
 let v128_load32_lane align offset i =
-  VecLoadLane ({ty = V128Type; align; offset; pack = Pack32}, i)
+  VecLoadLane ({ty = V128Type; align; offset; pack = Pack32; ordering = Unordered}, i)
 let v128_load64_lane align offset i =
-  VecLoadLane ({ty = V128Type; align; offset; pack = Pack64}, i)
+  VecLoadLane ({ty = V128Type; align; offset; pack = Pack64; ordering = Unordered}, i)
 
 let v128_store8_lane align offset i =
-  VecStoreLane ({ty = V128Type; align; offset; pack = Pack8}, i)
+  VecStoreLane ({ty = V128Type; align; offset; pack = Pack8; ordering = Unordered}, i)
 let v128_store16_lane align offset i =
-  VecStoreLane ({ty = V128Type; align; offset; pack = Pack16}, i)
+  VecStoreLane ({ty = V128Type; align; offset; pack = Pack16; ordering = Unordered}, i)
 let v128_store32_lane align offset i =
-  VecStoreLane ({ty = V128Type; align; offset; pack = Pack32}, i)
+  VecStoreLane ({ty = V128Type; align; offset; pack = Pack32; ordering = Unordered}, i)
 let v128_store64_lane align offset i =
-  VecStoreLane ({ty = V128Type; align; offset; pack = Pack64}, i)
+  VecStoreLane ({ty = V128Type; align; offset; pack = Pack64; ordering = Unordered}, i)
 
 let v128_not = VecUnaryBits (V128 V128Op.Not)
 let v128_and = VecBinaryBits (V128 V128Op.And)
