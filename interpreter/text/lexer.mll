@@ -265,10 +265,10 @@ rule token = parse
               (memory_atomic_wait64 (opt a 3)) o)
       | "atomic.fence" -> ATOMIC_FENCE
       | "i32.atomic.load" ->
-        ATOMIC_LOAD (fun a o ->
-            (i32_atomic_load (opt a 2)) o)
+        ATOMIC_LOAD (fun a o ordering ->
+            i32_atomic_load (opt a 2) o ordering)
       | "i64.atomic.load" ->
-        ATOMIC_LOAD (fun a o ->
+        ATOMIC_LOAD (fun a o ordering ->
             (i64_atomic_load (opt a 3)) o)
       | "i32.atomic.store" ->
         ATOMIC_STORE (fun a o ->
@@ -892,6 +892,8 @@ rule token = parse
       | "either" -> EITHER
       | "input" -> INPUT
       | "output" -> OUTPUT
+      | "acqrel" -> ACQREL
+      | "seqcst" -> SEQCST
 
       | _ -> unknown lexbuf
     }
