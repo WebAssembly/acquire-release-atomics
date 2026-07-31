@@ -150,13 +150,15 @@ struct
 
   let atomicmemop ({align; offset; ordering; _} : (('t, 'p, ordering) memop)) =
     let ordering_bit = match ordering with
-      | SeqCst -> 0l
       | AcqRel -> Int32.shift_left 1l 4
-  in
+      | SeqCst -> 0l
+    in
     u32 (Int32.logor (Int32.of_int align) ordering_bit);
     begin match ordering with
-    | AcqRel -> u32 1l
-    | SeqCst -> ()
+      | AcqRel -> u32 1l
+      (* No need to emit SeqCst since it's the default. *)
+      (* The align byte also leaves bit 4 unset indicating that no ordering immediate follows. *)
+      | SeqCst -> ()
     end;
     u32 offset
 
