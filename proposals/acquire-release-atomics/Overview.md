@@ -1,8 +1,8 @@
-# Relaxed Atomics
+# Acquire-Release Atomics
 
 ## Summary
 
-The Relaxed Atomics proposal introduces weaker memory orderings and spinlock relaxation hints to WebAssembly. Specifically, it adds support for release-acquire ordering, providing an intermediate memory order that is stronger than unordered accesses but weaker than the sequentially-consistent (`seqcst`) ordering introduced in the baseline [threads] proposal. Additionally, it introduces a `pause` instruction to improve the efficiency of spinlocks.
+The Acquire-Release Atomics proposal introduces weaker memory orderings and spinlock relaxation hints to WebAssembly. Specifically, it adds support for release-acquire ordering, providing an intermediate memory order that is stronger than unordered accesses but weaker than the sequentially-consistent (`seqcst`) ordering introduced in the baseline [threads] proposal. Additionally, it introduces a `pause` instruction to improve the efficiency of spinlocks.
 
 [threads]: ../threads/Overview.md
 

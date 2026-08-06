@@ -1,13 +1,13 @@
-# Relaxed Atomic  Proposal for WebAssembly
+# Acquire-Release Atomic Proposal for WebAssembly
 
 This repository is a clone of github.com/WebAssembly/spec/. It is meant for
-discussion, prototype specification and implementation of a proposal to relaxed atomics
+discussion, prototype specification and implementation of a proposal to acquire-release atomics
 support to WebAssembly.
 
-See the [overview](proposals/relaxed-atomics/Overview.md) for a summary of the proposal.
+See the [overview](proposals/acquire-release-atomics/Overview.md) for a summary of the proposal.
 
 A formatted version of the spec with proposed changes is available here:
-[webassembly.github.io/threads](https://webassembly.github.io/relaxed-atomics/).
+[webassembly.github.io/threads](https://webassembly.github.io/acquire-release-atomics/).
 
 Original README from upstream repository follows...
 
