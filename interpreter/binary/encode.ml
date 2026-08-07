@@ -146,7 +146,21 @@ struct
   let vecop n = op 0xfd; u32 n
   let end_ () = op 0x0b
 
-  let memop {align; offset; _} = u32 (Int32.of_int align); u32 offset
+  let memop ({align; offset; _} : (('t, 'p, 'o) memop)) = u32 (Int32.of_int align); u32 offset
+
+  let memop_with_ordering ({align; offset; ordering; _} : (('t, 'p, ordering) memop)) =
+    let ordering_bit = match ordering with
+      | AcqRel -> Int32.shift_left 1l 4
+      | SeqCst -> 0l
+    in
+    u32 (Int32.logor (Int32.of_int align) ordering_bit);
+    begin match ordering with
+      | AcqRel -> byte 1
+      (* No need to emit SeqCst since it's the default. *)
+      (* The align byte also leaves bit 4 unset indicating that no ordering immediate follows. *)
+      | SeqCst -> ()
+    end;
+    u32 offset
 
   let var x = u32 x.it
 
@@ -306,7 +320,7 @@ struct
       op 0xfe; op 0x03; op 0x00
 
     | AtomicLoad ({ty = I32Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x10; memop mo
+      op 0xfe; op 0x10; memop_with_ordering mo
     | AtomicLoad ({ty = I64Type; pack = None; _} as mo) ->
       op 0xfe; op 0x11; memop mo
     | AtomicLoad ({ty = I32Type; pack = Some Pack8; _} as mo) ->
