@@ -322,38 +322,38 @@ struct
     | AtomicLoad ({ty = I32Type; pack = None; _} as mo) ->
       op 0xfe; op 0x10; memop_with_ordering mo
     | AtomicLoad ({ty = I64Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x11; memop mo
+      op 0xfe; op 0x11; memop_with_ordering mo
     | AtomicLoad ({ty = I32Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x12; memop mo
+      op 0xfe; op 0x12; memop_with_ordering mo
     | AtomicLoad ({ty = I32Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x13; memop mo
+      op 0xfe; op 0x13; memop_with_ordering mo
     | AtomicLoad {ty = I32Type; pack = Some Pack32; _} -> assert false
     | AtomicLoad {ty = I32Type; pack = Some Pack64; _} -> assert false
     | AtomicLoad ({ty = I64Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x14; memop mo
+      op 0xfe; op 0x14; memop_with_ordering mo
     | AtomicLoad ({ty = I64Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x15; memop mo
+      op 0xfe; op 0x15; memop_with_ordering mo
     | AtomicLoad ({ty = I64Type; pack = Some Pack32; _} as mo) ->
-      op 0xfe; op 0x16; memop mo
+      op 0xfe; op 0x16; memop_with_ordering mo
     | AtomicLoad ({ty = I64Type; pack = Some Pack64; _}) -> assert false
     | AtomicLoad {ty = F32Type | F64Type; _} -> assert false
 
     | AtomicStore ({ty = I32Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x17; memop mo
+      op 0xfe; op 0x17; memop_with_ordering mo
     | AtomicStore ({ty = I64Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x18; memop mo
+      op 0xfe; op 0x18; memop_with_ordering mo
     | AtomicStore ({ty = I32Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x19; memop mo
+      op 0xfe; op 0x19; memop_with_ordering mo
     | AtomicStore ({ty = I32Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x1a; memop mo
+      op 0xfe; op 0x1a; memop_with_ordering mo
     | AtomicStore {ty = I32Type; pack = Some Pack32; _} -> assert false
     | AtomicStore {ty = I32Type; pack = Some Pack64; _} -> assert false
     | AtomicStore ({ty = I64Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x1b; memop mo
+      op 0xfe; op 0x1b; memop_with_ordering mo
     | AtomicStore ({ty = I64Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x1c; memop mo
+      op 0xfe; op 0x1c; memop_with_ordering mo
     | AtomicStore ({ty = I64Type; pack = Some Pack32; _} as mo) ->
-      op 0xfe; op 0x1d; memop mo
+      op 0xfe; op 0x1d; memop_with_ordering mo
     | AtomicStore ({ty = I64Type; pack = Some Pack64; _}) -> assert false
     | AtomicStore {ty = F32Type | F64Type; _} -> assert false
 
