@@ -800,19 +800,19 @@ let rec instr s =
     | 0x03 -> expect 0x00 s "zero flag expected"; atomic_fence
 
     | 0x10 -> let a, ord, o = memop_with_ordering s in i32_atomic_load a o ord
-    | 0x11 -> let a, o = memop s in i64_atomic_load a o
-    | 0x12 -> let a, o = memop s in i32_atomic_load8_u a o
-    | 0x13 -> let a, o = memop s in i32_atomic_load16_u a o
-    | 0x14 -> let a, o = memop s in i64_atomic_load8_u a o
-    | 0x15 -> let a, o = memop s in i64_atomic_load16_u a o
-    | 0x16 -> let a, o = memop s in i64_atomic_load32_u a o
-    | 0x17 -> let a, o = memop s in i32_atomic_store a o
-    | 0x18 -> let a, o = memop s in i64_atomic_store a o
-    | 0x19 -> let a, o = memop s in i32_atomic_store8 a o
-    | 0x1a -> let a, o = memop s in i32_atomic_store16 a o
-    | 0x1b -> let a, o = memop s in i64_atomic_store8 a o
-    | 0x1c -> let a, o = memop s in i64_atomic_store16 a o
-    | 0x1d -> let a, o = memop s in i64_atomic_store32 a o
+    | 0x11 -> let a, ord, o = memop_with_ordering s in i64_atomic_load a o ord
+    | 0x12 -> let a, ord, o = memop_with_ordering s in i32_atomic_load8_u a o ord
+    | 0x13 -> let a, ord, o = memop_with_ordering s in i32_atomic_load16_u a o ord
+    | 0x14 -> let a, ord, o = memop_with_ordering s in i64_atomic_load8_u a o ord
+    | 0x15 -> let a, ord, o = memop_with_ordering s in i64_atomic_load16_u a o ord
+    | 0x16 -> let a, ord, o = memop_with_ordering s in i64_atomic_load32_u a o ord
+    | 0x17 -> let a, ord, o = memop_with_ordering s in i32_atomic_store a o ord
+    | 0x18 -> let a, ord, o = memop_with_ordering s in i64_atomic_store a o ord
+    | 0x19 -> let a, ord, o = memop_with_ordering s in i32_atomic_store8 a o ord
+    | 0x1a -> let a, ord, o = memop_with_ordering s in i32_atomic_store16 a o ord
+    | 0x1b -> let a, ord, o = memop_with_ordering s in i64_atomic_store8 a o ord
+    | 0x1c -> let a, ord, o = memop_with_ordering s in i64_atomic_store16 a o ord
+    | 0x1d -> let a, ord, o = memop_with_ordering s in i64_atomic_store32 a o ord
 
     | 0x1e -> let a, o = memop s in i32_atomic_rmw (I32 I32Op.RmwAdd) a o
     | 0x1f -> let a, o = memop s in i64_atomic_rmw (I64 I64Op.RmwAdd) a o

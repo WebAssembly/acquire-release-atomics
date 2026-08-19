@@ -269,43 +269,43 @@ rule token = parse
             i32_atomic_load (opt a 2) o ordering)
       | "i64.atomic.load" ->
         ATOMIC_LOAD (fun a o ordering ->
-            (i64_atomic_load (opt a 3)) o)
+            i64_atomic_load (opt a 3) o ordering)
       | "i32.atomic.store" ->
-        ATOMIC_STORE (fun a o ->
-            (i32_atomic_store (opt a 2)) o)
+        ATOMIC_STORE (fun a o ordering ->
+            i32_atomic_store (opt a 2) o ordering)
       | "i64.atomic.store" ->
-        ATOMIC_STORE (fun a o ->
-            (i64_atomic_store (opt a 3)) o)
+        ATOMIC_STORE (fun a o ordering ->
+            i64_atomic_store (opt a 3) o ordering)
       | "i32.atomic.load8_u" ->
-        ATOMIC_STORE (fun a o ->
-            (i32_atomic_load8_u (opt a 0)) o)
+        ATOMIC_LOAD (fun a o ordering ->
+            i32_atomic_load8_u (opt a 0) o ordering)
       | "i32.atomic.load16_u" ->
-        ATOMIC_STORE (fun a o ->
-            (i32_atomic_load16_u (opt a 1)) o)
+        ATOMIC_LOAD (fun a o ordering ->
+            i32_atomic_load16_u (opt a 1) o ordering)
       | "i64.atomic.load8_u" ->
-        ATOMIC_STORE (fun a o ->
-            (i64_atomic_load8_u (opt a 0)) o)
+        ATOMIC_LOAD (fun a o ordering ->
+            i64_atomic_load8_u (opt a 0) o ordering)
       | "i64.atomic.load16_u" ->
-        ATOMIC_STORE (fun a o ->
-            (i64_atomic_load16_u (opt a 1)) o)
+        ATOMIC_LOAD (fun a o ordering ->
+            i64_atomic_load16_u (opt a 1) o ordering)
       | "i64.atomic.load32_u" ->
-        ATOMIC_STORE (fun a o ->
-            (i64_atomic_load32_u (opt a 2)) o)
+        ATOMIC_LOAD (fun a o ordering ->
+            i64_atomic_load32_u (opt a 2) o ordering)
       | "i32.atomic.store8" ->
-        ATOMIC_STORE (fun a o ->
-            (i32_atomic_store8 (opt a 0)) o)
+        ATOMIC_STORE (fun a o ordering ->
+            i32_atomic_store8 (opt a 0) o ordering)
       | "i32.atomic.store16" ->
-        ATOMIC_STORE (fun a o ->
-            (i32_atomic_store16 (opt a 1)) o)
+        ATOMIC_STORE (fun a o ordering ->
+            i32_atomic_store16 (opt a 1) o ordering)
       | "i64.atomic.store8" ->
-        ATOMIC_STORE (fun a o ->
-            (i64_atomic_store8 (opt a 0)) o)
+        ATOMIC_STORE (fun a o ordering ->
+            i64_atomic_store8 (opt a 0) o ordering)
       | "i64.atomic.store16" ->
-        ATOMIC_STORE (fun a o ->
-            (i64_atomic_store16 (opt a 1)) o)
+        ATOMIC_STORE (fun a o ordering ->
+            i64_atomic_store16 (opt a 1) o ordering)
       | "i64.atomic.store32" ->
-        ATOMIC_STORE (fun a o ->
-            (i64_atomic_store32 (opt a 2)) o)
+        ATOMIC_STORE (fun a o ordering ->
+            i64_atomic_store32 (opt a 2) o ordering)
       | "i32.atomic.rmw.add" ->
         ATOMIC_RMW (fun a o ->
             (i32_atomic_rmw (Values.I32 I32Op.RmwAdd) (opt a 2)) o)
