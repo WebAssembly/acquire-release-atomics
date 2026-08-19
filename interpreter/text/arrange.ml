@@ -403,16 +403,18 @@ let memop_without_type name {align; offset; _} sz =
   (if offset = 0l then "" else " offset=" ^ nat32 offset) ^
   (if 1 lsl align = sz then "" else " align=" ^ nat (1 lsl align))
 
+let ordering o = match o with 
+  | AcqRel -> " acqrel"
+    (* This is the default, no need to write it. *)
+  | SeqCst -> ""
+
 let memop name typ ({ty; align; offset; _} : (('t, 'p, unordered) memop)) sz =
   typ ty ^ "." ^ name ^
   (if offset = 0l then "" else " offset=" ^ nat32 offset) ^
   (if 1 lsl align = sz then "" else " align=" ^ nat (1 lsl align))
 
-let atomicmemop name typ ({ty; align; offset; ordering; _} as memop_ : (('t, 'p, ordering) memop)) sz =
-  memop name typ {memop_ with ordering = Unordered} sz ^ match ordering with
-    | AcqRel -> " acqrel"
-    (* This is the default, no need to write it. *)
-    | SeqCst -> ""
+let atomicmemop name typ ({ty; align; offset; ordering=ord; _} as memop_ : (('t, 'p, ordering) memop)) sz =
+  memop name typ {memop_ with ordering = Unordered} sz ^ ordering ord
 
 let loadop op =
   match op.pack with
@@ -449,6 +451,9 @@ let memoryatomicnotifyop op =
   match op.pack with
   | None -> memop_without_type "memory.atomic.notify" op (num_size op.ty)
   | Some sz -> assert false
+
+let atomicfenceop ord =
+  "atomic.fence" ^ ordering ord
 
 let atomicloadop op =
   match op.pack with
@@ -560,7 +565,7 @@ let rec instr e =
     | VecReplace op -> vec_replaceop op, []
     | MemoryAtomicWait op -> memoryatomicwaitop op, []
     | MemoryAtomicNotify op -> memoryatomicnotifyop op, []
-    | AtomicFence -> "atomic.fence", []
+    | AtomicFence ordering -> atomicfenceop ordering, []
     | AtomicLoad op -> atomicloadop op, []
     | AtomicStore op -> atomicstoreop op, []
     | AtomicRmw (rmwop, op) -> atomicrmwop op rmwop, []

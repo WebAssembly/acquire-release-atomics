@@ -123,8 +123,8 @@ def all_combinations() -> Iterator[(Template, (int, ValueType), Ordering)]:
 
     yield from itertools.product(load_store_acqrel_templates, memories, [None, Ordering.acqrel, Ordering.seqcst])
 
-    # for ordering in None, Ordering.acqrel, Ordering.seqcst:
-    #     yield atomic_fence_template, (None, None), ordering
+    for ordering in None, Ordering.acqrel, Ordering.seqcst:
+        yield atomic_fence_template, (None, None), ordering
 
 
 def statement(template, mem_idx: int | None, mem_ptr_type: ValueType, ordering: Ordering | None):

@@ -47,6 +47,9 @@
     (i64.atomic.store32 (i32.const 0) (i64.const 42))
     (i64.atomic.store32 acqrel (i32.const 0) (i64.const 42))
     (i64.atomic.store32 seqcst (i32.const 0) (i64.const 42))
+    (atomic.fence)
+    (atomic.fence acqrel)
+    (atomic.fence seqcst)
   )
 )
 
@@ -63,8 +66,8 @@
   "\03\02\01\00" ;; Function section
   "\05\04\01" ;; Memory section
     "\01\01\01" ;; (memory 1 1)
-  "\0a\dc\02\01" ;; Code section
-  "\d9\02\00" ;; func $test-all-ops
+  "\0a\e2\02\01" ;; Code section
+  "\df\02\00" ;; func $test-all-ops
 
     "\41\00" ;; (i32.const 0)
     "\fe\10" ;; i32.atomic.load
@@ -345,6 +348,12 @@
     "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
     "\00" ;; seqcst memory ordering
     "\00" ;; offset
+
+    "\fe\03" ;; atomic.fence
+    "\01" ;; acqrel memory ordering
+
+    "\fe\03" ;; atomic.fence
+    "\00" ;; seqcst memory ordering
 
     "\0b" ;; end
 )
