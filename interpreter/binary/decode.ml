@@ -231,14 +231,24 @@ let ordering s = match byte s with
 | 1 -> AcqRel
 | _  -> error s (pos s) "expected ordering immediate"
 
-let memop_with_ordering s =
+let rmw_ordering s = match byte s with
+| 0x00 -> SeqCst
+| 0x11 -> AcqRel
+| _ -> error s (pos s) "expected ordering immediate"
+
+let memop_with_ordering s parse_ordering =
   let align = u32 s in
   require (I32.le_u align 32l) s (pos s - 1) "malformed memop flags";
   let (ord, unmasked_align) = match I32.and_ align (I32.shl 1l 4l) with
     | 0l -> (SeqCst, align)
-    | _  -> (ordering s, I32.and_ align (Int32.lognot (I32.shl 1l 4l))) in
+    | _  -> (parse_ordering s, I32.and_ align (Int32.lognot (I32.shl 1l 4l))) in
   let offset = u32 s in
   Int32.to_int unmasked_align, ord, offset
+
+
+let memop_with_one_ordering s = memop_with_ordering s ordering
+
+let memop_with_two_orderings s = memop_with_ordering s rmw_ordering
 
 let block_type s =
   let p = pos s in
@@ -799,76 +809,76 @@ let rec instr s =
     | 0x02 -> let a, o = memop s in memory_atomic_wait64 a o
     | 0x03 -> atomic_fence (ordering s)
 
-    | 0x10 -> let a, ord, o = memop_with_ordering s in i32_atomic_load a o ord
-    | 0x11 -> let a, ord, o = memop_with_ordering s in i64_atomic_load a o ord
-    | 0x12 -> let a, ord, o = memop_with_ordering s in i32_atomic_load8_u a o ord
-    | 0x13 -> let a, ord, o = memop_with_ordering s in i32_atomic_load16_u a o ord
-    | 0x14 -> let a, ord, o = memop_with_ordering s in i64_atomic_load8_u a o ord
-    | 0x15 -> let a, ord, o = memop_with_ordering s in i64_atomic_load16_u a o ord
-    | 0x16 -> let a, ord, o = memop_with_ordering s in i64_atomic_load32_u a o ord
-    | 0x17 -> let a, ord, o = memop_with_ordering s in i32_atomic_store a o ord
-    | 0x18 -> let a, ord, o = memop_with_ordering s in i64_atomic_store a o ord
-    | 0x19 -> let a, ord, o = memop_with_ordering s in i32_atomic_store8 a o ord
-    | 0x1a -> let a, ord, o = memop_with_ordering s in i32_atomic_store16 a o ord
-    | 0x1b -> let a, ord, o = memop_with_ordering s in i64_atomic_store8 a o ord
-    | 0x1c -> let a, ord, o = memop_with_ordering s in i64_atomic_store16 a o ord
-    | 0x1d -> let a, ord, o = memop_with_ordering s in i64_atomic_store32 a o ord
+    | 0x10 -> let a, ord, o = memop_with_one_ordering s in i32_atomic_load a o ord
+    | 0x11 -> let a, ord, o = memop_with_one_ordering s in i64_atomic_load a o ord
+    | 0x12 -> let a, ord, o = memop_with_one_ordering s in i32_atomic_load8_u a o ord
+    | 0x13 -> let a, ord, o = memop_with_one_ordering s in i32_atomic_load16_u a o ord
+    | 0x14 -> let a, ord, o = memop_with_one_ordering s in i64_atomic_load8_u a o ord
+    | 0x15 -> let a, ord, o = memop_with_one_ordering s in i64_atomic_load16_u a o ord
+    | 0x16 -> let a, ord, o = memop_with_one_ordering s in i64_atomic_load32_u a o ord
+    | 0x17 -> let a, ord, o = memop_with_one_ordering s in i32_atomic_store a o ord
+    | 0x18 -> let a, ord, o = memop_with_one_ordering s in i64_atomic_store a o ord
+    | 0x19 -> let a, ord, o = memop_with_one_ordering s in i32_atomic_store8 a o ord
+    | 0x1a -> let a, ord, o = memop_with_one_ordering s in i32_atomic_store16 a o ord
+    | 0x1b -> let a, ord, o = memop_with_one_ordering s in i64_atomic_store8 a o ord
+    | 0x1c -> let a, ord, o = memop_with_one_ordering s in i64_atomic_store16 a o ord
+    | 0x1d -> let a, ord, o = memop_with_one_ordering s in i64_atomic_store32 a o ord
 
-    | 0x1e -> let a, o = memop s in i32_atomic_rmw (I32 I32Op.RmwAdd) a o
-    | 0x1f -> let a, o = memop s in i64_atomic_rmw (I64 I64Op.RmwAdd) a o
-    | 0x20 -> let a, o = memop s in i32_atomic_rmw8_u (I32 I32Op.RmwAdd) a o
-    | 0x21 -> let a, o = memop s in i32_atomic_rmw16_u (I32 I32Op.RmwAdd) a o
-    | 0x22 -> let a, o = memop s in i64_atomic_rmw8_u (I64 I64Op.RmwAdd) a o
-    | 0x23 -> let a, o = memop s in i64_atomic_rmw16_u (I64 I64Op.RmwAdd) a o
-    | 0x24 -> let a, o = memop s in i64_atomic_rmw32_u (I64 I64Op.RmwAdd) a o
+    | 0x1e -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw (I32 I32Op.RmwAdd) a o ord
+    | 0x1f -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw (I64 I64Op.RmwAdd) a o ord
+    | 0x20 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw8_u (I32 I32Op.RmwAdd) a o ord
+    | 0x21 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw16_u (I32 I32Op.RmwAdd) a o ord
+    | 0x22 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw8_u (I64 I64Op.RmwAdd) a o ord
+    | 0x23 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw16_u (I64 I64Op.RmwAdd) a o ord
+    | 0x24 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw32_u (I64 I64Op.RmwAdd) a o ord
 
-    | 0x25 -> let a, o = memop s in i32_atomic_rmw (I32 I32Op.RmwSub) a o
-    | 0x26 -> let a, o = memop s in i64_atomic_rmw (I64 I64Op.RmwSub) a o
-    | 0x27 -> let a, o = memop s in i32_atomic_rmw8_u (I32 I32Op.RmwSub) a o
-    | 0x28 -> let a, o = memop s in i32_atomic_rmw16_u (I32 I32Op.RmwSub) a o
-    | 0x29 -> let a, o = memop s in i64_atomic_rmw8_u (I64 I64Op.RmwSub) a o
-    | 0x2a -> let a, o = memop s in i64_atomic_rmw16_u (I64 I64Op.RmwSub) a o
-    | 0x2b -> let a, o = memop s in i64_atomic_rmw32_u (I64 I64Op.RmwSub) a o
+    | 0x25 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw (I32 I32Op.RmwSub) a o ord
+    | 0x26 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw (I64 I64Op.RmwSub) a o ord
+    | 0x27 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw8_u (I32 I32Op.RmwSub) a o ord
+    | 0x28 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw16_u (I32 I32Op.RmwSub) a o ord
+    | 0x29 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw8_u (I64 I64Op.RmwSub) a o ord
+    | 0x2a -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw16_u (I64 I64Op.RmwSub) a o ord
+    | 0x2b -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw32_u (I64 I64Op.RmwSub) a o ord
 
-    | 0x2c -> let a, o = memop s in i32_atomic_rmw (I32 I32Op.RmwAnd) a o
-    | 0x2d -> let a, o = memop s in i64_atomic_rmw (I64 I64Op.RmwAnd) a o
-    | 0x2e -> let a, o = memop s in i32_atomic_rmw8_u (I32 I32Op.RmwAnd) a o
-    | 0x2f -> let a, o = memop s in i32_atomic_rmw16_u (I32 I32Op.RmwAnd) a o
-    | 0x30 -> let a, o = memop s in i64_atomic_rmw8_u (I64 I64Op.RmwAnd) a o
-    | 0x31 -> let a, o = memop s in i64_atomic_rmw16_u (I64 I64Op.RmwAnd) a o
-    | 0x32 -> let a, o = memop s in i64_atomic_rmw32_u (I64 I64Op.RmwAnd) a o
+    | 0x2c -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw (I32 I32Op.RmwAnd) a o ord
+    | 0x2d -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw (I64 I64Op.RmwAnd) a o ord
+    | 0x2e -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw8_u (I32 I32Op.RmwAnd) a o ord
+    | 0x2f -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw16_u (I32 I32Op.RmwAnd) a o ord
+    | 0x30 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw8_u (I64 I64Op.RmwAnd) a o ord
+    | 0x31 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw16_u (I64 I64Op.RmwAnd) a o ord
+    | 0x32 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw32_u (I64 I64Op.RmwAnd) a o ord
 
-    | 0x33 -> let a, o = memop s in i32_atomic_rmw (I32 I32Op.RmwOr) a o
-    | 0x34 -> let a, o = memop s in i64_atomic_rmw (I64 I64Op.RmwOr) a o
-    | 0x35 -> let a, o = memop s in i32_atomic_rmw8_u (I32 I32Op.RmwOr) a o
-    | 0x36 -> let a, o = memop s in i32_atomic_rmw16_u (I32 I32Op.RmwOr) a o
-    | 0x37 -> let a, o = memop s in i64_atomic_rmw8_u (I64 I64Op.RmwOr) a o
-    | 0x38 -> let a, o = memop s in i64_atomic_rmw16_u (I64 I64Op.RmwOr) a o
-    | 0x39 -> let a, o = memop s in i64_atomic_rmw32_u (I64 I64Op.RmwOr) a o
+    | 0x33 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw (I32 I32Op.RmwOr) a o ord
+    | 0x34 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw (I64 I64Op.RmwOr) a o ord
+    | 0x35 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw8_u (I32 I32Op.RmwOr) a o ord
+    | 0x36 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw16_u (I32 I32Op.RmwOr) a o ord
+    | 0x37 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw8_u (I64 I64Op.RmwOr) a o ord
+    | 0x38 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw16_u (I64 I64Op.RmwOr) a o ord
+    | 0x39 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw32_u (I64 I64Op.RmwOr) a o ord
 
-    | 0x3a -> let a, o = memop s in i32_atomic_rmw (I32 I32Op.RmwXor) a o
-    | 0x3b -> let a, o = memop s in i64_atomic_rmw (I64 I64Op.RmwXor) a o
-    | 0x3c -> let a, o = memop s in i32_atomic_rmw8_u (I32 I32Op.RmwXor) a o
-    | 0x3d -> let a, o = memop s in i32_atomic_rmw16_u (I32 I32Op.RmwXor) a o
-    | 0x3e -> let a, o = memop s in i64_atomic_rmw8_u (I64 I64Op.RmwXor) a o
-    | 0x3f -> let a, o = memop s in i64_atomic_rmw16_u (I64 I64Op.RmwXor) a o
-    | 0x40 -> let a, o = memop s in i64_atomic_rmw32_u (I64 I64Op.RmwXor) a o
+    | 0x3a -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw (I32 I32Op.RmwXor) a o ord
+    | 0x3b -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw (I64 I64Op.RmwXor) a o ord
+    | 0x3c -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw8_u (I32 I32Op.RmwXor) a o ord
+    | 0x3d -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw16_u (I32 I32Op.RmwXor) a o ord
+    | 0x3e -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw8_u (I64 I64Op.RmwXor) a o ord
+    | 0x3f -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw16_u (I64 I64Op.RmwXor) a o ord
+    | 0x40 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw32_u (I64 I64Op.RmwXor) a o ord
 
-    | 0x41 -> let a, o = memop s in i32_atomic_rmw (I32 I32Op.RmwXchg) a o
-    | 0x42 -> let a, o = memop s in i64_atomic_rmw (I64 I64Op.RmwXchg) a o
-    | 0x43 -> let a, o = memop s in i32_atomic_rmw8_u (I32 I32Op.RmwXchg) a o
-    | 0x44 -> let a, o = memop s in i32_atomic_rmw16_u (I32 I32Op.RmwXchg) a o
-    | 0x45 -> let a, o = memop s in i64_atomic_rmw8_u (I64 I64Op.RmwXchg) a o
-    | 0x46 -> let a, o = memop s in i64_atomic_rmw16_u (I64 I64Op.RmwXchg) a o
-    | 0x47 -> let a, o = memop s in i64_atomic_rmw32_u (I64 I64Op.RmwXchg) a o
+    | 0x41 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw (I32 I32Op.RmwXchg) a o ord
+    | 0x42 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw (I64 I64Op.RmwXchg) a o ord
+    | 0x43 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw8_u (I32 I32Op.RmwXchg) a o ord
+    | 0x44 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw16_u (I32 I32Op.RmwXchg) a o ord
+    | 0x45 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw8_u (I64 I64Op.RmwXchg) a o ord
+    | 0x46 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw16_u (I64 I64Op.RmwXchg) a o ord
+    | 0x47 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw32_u (I64 I64Op.RmwXchg) a o ord
 
-    | 0x48 -> let a, o = memop s in i32_atomic_rmw_cmpxchg a o
-    | 0x49 -> let a, o = memop s in i64_atomic_rmw_cmpxchg a o
-    | 0x4a -> let a, o = memop s in i32_atomic_rmw8_u_cmpxchg a o
-    | 0x4b -> let a, o = memop s in i32_atomic_rmw16_u_cmpxchg a o
-    | 0x4c -> let a, o = memop s in i64_atomic_rmw8_u_cmpxchg a o
-    | 0x4d -> let a, o = memop s in i64_atomic_rmw16_u_cmpxchg a o
-    | 0x4e -> let a, o = memop s in i64_atomic_rmw32_u_cmpxchg a o
+    | 0x48 -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw_cmpxchg a o ord
+    | 0x49 -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw_cmpxchg a o ord
+    | 0x4a -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw8_u_cmpxchg a o ord
+    | 0x4b -> let a, ord, o = memop_with_two_orderings s in i32_atomic_rmw16_u_cmpxchg a o ord
+    | 0x4c -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw8_u_cmpxchg a o ord
+    | 0x4d -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw16_u_cmpxchg a o ord
+    | 0x4e -> let a, ord, o = memop_with_two_orderings s in i64_atomic_rmw32_u_cmpxchg a o ord
 
     | b -> illegal s (pos + 1) b
     )

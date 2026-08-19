@@ -219,8 +219,7 @@ let inline_type_explicit (c : context) x ft at =
 %token MEMORY_SIZE MEMORY_GROW MEMORY_FILL MEMORY_COPY MEMORY_INIT DATA_DROP
 %token<int option -> Memory.offset -> Ast.instr'> LOAD STORE
 %token<int option -> Memory.offset -> Ast.instr'> MEMORY_ATOMIC_WAIT MEMORY_ATOMIC_NOTIFY
-%token<int option -> Memory.offset -> Ast.ordering -> Ast.instr'> ATOMIC_LOAD ATOMIC_STORE
-%token<int option -> Memory.offset -> Ast.instr'> ATOMIC_RMW ATOMIC_RMW_CMPXCHG
+%token<int option -> Memory.offset -> Ast.ordering -> Ast.instr'> ATOMIC_LOAD ATOMIC_STORE ATOMIC_RMW ATOMIC_RMW_CMPXCHG
 %token ATOMIC_FENCE
 %token<string> OFFSET_EQ_NAT ALIGN_EQ_NAT
 %token<string Source.phrase -> Ast.instr' * Values.num> CONST
@@ -461,8 +460,8 @@ plain_instr :
   | ATOMIC_FENCE ordering { fun c -> atomic_fence $2 }
   | ATOMIC_LOAD offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
   | ATOMIC_STORE offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
-  | ATOMIC_RMW offset_opt align_opt { fun c -> $1 $3 $2 }
-  | ATOMIC_RMW_CMPXCHG offset_opt align_opt { fun c -> $1 $3 $2 }
+  | ATOMIC_RMW offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
+  | ATOMIC_RMW_CMPXCHG offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
 
 
 select_instr_instr_list :
