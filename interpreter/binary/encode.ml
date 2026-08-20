@@ -316,8 +316,12 @@ struct
         assert false
     | MemoryAtomicWait {ty = F32Type | F64Type; _} -> assert false
 
-    | AtomicFence ->
-      op 0xfe; op 0x03; op 0x00
+    | AtomicFence ordering ->
+      op 0xfe; op 0x03;
+      begin match ordering with
+      | SeqCst -> byte 0
+      | AcqRel -> byte 1
+      end
 
     | AtomicLoad ({ty = I32Type; pack = None; _} as mo) ->
       op 0xfe; op 0x10; memop_with_ordering mo

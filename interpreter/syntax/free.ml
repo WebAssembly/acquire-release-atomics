@@ -97,7 +97,7 @@ let rec instr (e : instr) =
   | DataDrop x -> datas (var x)
   | MemoryAtomicWait _      
   | MemoryAtomicNotify _    
-  | AtomicFence                       
+  | AtomicFence _
   | AtomicLoad _            
   | AtomicStore _           
   | AtomicRmw _     

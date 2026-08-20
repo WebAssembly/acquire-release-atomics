@@ -458,7 +458,7 @@ plain_instr :
   | VEC_REPLACE NAT { let at = at () in fun c -> $1 (vec_lane_index $2 at) }
   | MEMORY_ATOMIC_WAIT offset_opt align_opt { fun c -> $1 $3 $2 }
   | MEMORY_ATOMIC_NOTIFY offset_opt align_opt { fun c -> $1 $3 $2 }
-  | ATOMIC_FENCE { fun c -> atomic_fence }
+  | ATOMIC_FENCE ordering { fun c -> atomic_fence $2 }
   | ATOMIC_LOAD offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
   | ATOMIC_STORE offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
   | ATOMIC_RMW offset_opt align_opt { fun c -> $1 $3 $2 }

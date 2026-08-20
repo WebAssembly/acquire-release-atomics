@@ -207,7 +207,7 @@ and instr' =
   | VecReplace of vec_replaceop       (* replace lane in vector *)
   | MemoryAtomicWait of atomicop      (* atomically wait for notification at address *)
   | MemoryAtomicNotify of atomicop    (* atomically notify all waiters at address *)
-  | AtomicFence                       (* perform an atomic fence *)
+  | AtomicFence of ordering           (* perform an atomic fence *)
   | AtomicLoad of atomicop            (* atomically read memory at address *)
   | AtomicStore of atomicop           (* atomically write memory at address *)
   | AtomicRmw of rmwop * atomicop     (* atomically read, modify, write memory at address *)
