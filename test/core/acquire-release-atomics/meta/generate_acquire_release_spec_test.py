@@ -6,6 +6,8 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from enum import Enum
 
+from acquire_release_atomics_execution_tests import acqrel_execution_tests
+
 # Workaround for python <3.10, escape characters can't appear in f-strings.
 newline = "\n"
 
@@ -344,8 +346,8 @@ def main():
     print(invalid_text_test())
     print()
     print(binary_test())
-    # print()
-    # print(acqrel_execution_tests)
+    print()
+    print(acqrel_execution_tests)
 
 
 if __name__ == "__main__":
