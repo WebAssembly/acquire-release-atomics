@@ -701,8 +701,8 @@ let rec of_command base_file (ctx : context) cmd =
     in bind ctx x_opt (unquote def);
     "let " ^ current_mod_var (mods_of_ctx ctx) ^ " = instance(" ^ of_definition def ^ ");\n" ^
     (if x_opt = None then "" else
-    "let " ^ of_mod_var_opt (mods_of_ctx ctx) x_opt ^ " = " ^
-    current_mod_var (mods_of_ctx ctx) ^ ";\n")
+    "var " ^ of_mod_var_opt (mods_of_ctx ctx) x_opt ^ " = " ^
+      current_mod_var (mods_of_ctx ctx) ^ ";\n")
   | Register (name, x_opt) ->
     "register(" ^ of_name name ^ ", " ^ of_mod_var_opt (mods_of_ctx ctx) x_opt ^ ");\n"
   | Action act ->
@@ -722,9 +722,9 @@ let rec of_command base_file (ctx : context) cmd =
       String.concat ", " (List.map (fun x -> "[\"" ^ x.it ^ "\", " ^ x.it ^ "]") xs) ^
       "], \"" ^ worker_file ^
       "\");\n" ^
-      if x_opt = None then "" else
-        "let " ^ of_thr_var_opt ctx x_opt ^ " = " ^ current_thr_var ctx ^ "\n"
-    )
+      (if x_opt = None then "" else
+        "var " ^ of_thr_var_opt ctx x_opt ^ " = " ^ current_thr_var ctx ^ ";\n"
+      ))
   | Wait x_opt ->
     "wait(" ^ of_thr_var_opt ctx x_opt ^ ");\n"
   | Meta _ -> assert false
