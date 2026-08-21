@@ -150,14 +150,13 @@ struct
     u32 (Int32.of_int align); 
     u32 offset
 
-  (* handle_ordering returns the ordering byte to emit, and the mask to apply to
-    the align, or None indicating that this is an unordered memop *)
+  (* handle_ordering returns the ordering byte to emit, if any *)
   let memop_with_ordering
        (({align; offset; ordering; _} : ('t, 'p, ordering) memop) as mo)
-       (handle_ordering : ordering -> (int * int32) option) =
+       (handle_ordering : ordering -> int option) =
     match handle_ordering ordering with
-    | Some (ordering_byte, mask) -> 
-        u32 (Int32.logor (Int32.of_int align) mask); 
+    | Some ordering_byte -> 
+        u32 (Int32.logor (Int32.of_int align) 0x10l); 
         byte ordering_byte; 
         u32 offset
     | None -> memop mo
@@ -165,13 +164,13 @@ struct
   let memop_with_one_ordering memop = 
     memop_with_ordering memop (function
       | SeqCst -> None 
-      | AcqRel -> Some (1, 0x10l)
+      | AcqRel -> Some 1
     )
 
   let memop_with_two_orderings memop = 
     memop_with_ordering memop (function
       | SeqCst -> None 
-      | AcqRel -> Some (0x11, 0x10l)
+      | AcqRel -> Some 0x11
     )
 
   let var x = u32 x.it
