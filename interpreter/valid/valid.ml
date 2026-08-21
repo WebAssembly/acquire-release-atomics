@@ -526,7 +526,8 @@ let rec check_instr (c : context) (e : instr) (s : infer_result_type) : op_type 
   | MemoryAtomicNotify atomicop ->
     check_memop Atomic c atomicop num_size (fun sz -> sz) e.at;
     [NumType I32Type; NumType I32Type] --> [NumType I32Type]
-  | AtomicFence _ -> [] --> []
+  | AtomicFence _
+  | Pause -> [] --> []
   | AtomicLoad atomicop -> 
     check_memop Atomic c atomicop num_size (fun sz -> sz) e.at;
     [NumType I32Type] --> [NumType atomicop.ty]

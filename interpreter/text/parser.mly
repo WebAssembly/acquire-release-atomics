@@ -220,7 +220,7 @@ let inline_type_explicit (c : context) x ft at =
 %token<int option -> Memory.offset -> Ast.instr'> LOAD STORE
 %token<int option -> Memory.offset -> Ast.instr'> MEMORY_ATOMIC_WAIT MEMORY_ATOMIC_NOTIFY
 %token<int option -> Memory.offset -> Ast.ordering -> Ast.instr'> ATOMIC_LOAD ATOMIC_STORE ATOMIC_RMW ATOMIC_RMW_CMPXCHG
-%token ATOMIC_FENCE
+%token ATOMIC_FENCE PAUSE
 %token<string> OFFSET_EQ_NAT ALIGN_EQ_NAT
 %token<string Source.phrase -> Ast.instr' * Values.num> CONST
 %token<Ast.instr'> UNARY BINARY TEST COMPARE CONVERT
@@ -458,6 +458,7 @@ plain_instr :
   | MEMORY_ATOMIC_WAIT offset_opt align_opt { fun c -> $1 $3 $2 }
   | MEMORY_ATOMIC_NOTIFY offset_opt align_opt { fun c -> $1 $3 $2 }
   | ATOMIC_FENCE ordering { fun c -> atomic_fence $2 }
+  | PAUSE { fun c -> pause }
   | ATOMIC_LOAD offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
   | ATOMIC_STORE offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }
   | ATOMIC_RMW offset_opt align_opt ordering { fun c -> $1 $3 $2 $4 }

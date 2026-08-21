@@ -467,7 +467,8 @@ let rec step_thread (t : thread) : thread * action =
             vs', [], NotifyAction (mem, addr, count)
         with exn -> vs', [Trapping (memory_error e.at exn) @@ e.at], NoAction)
 
-      | AtomicFence _, vs ->
+      | AtomicFence _, vs
+      | Pause, vs ->
         vs, [], NoAction
 
       | VecLoad {offset; ty; pack; _}, Num (I32 i) :: vs' ->

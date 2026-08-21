@@ -94,6 +94,8 @@ let memory_atomic_wait64 align offset =
 let atomic_fence ordering =
   AtomicFence ordering
 
+let pause = Pause
+
 let i32_atomic_load align offset ordering =
   AtomicLoad {ty = I32Type; align; offset; pack = None; ordering}
 let i64_atomic_load align offset ordering =

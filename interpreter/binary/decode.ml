@@ -808,6 +808,7 @@ let rec instr s =
     | 0x01 -> let a, o = memop s in memory_atomic_wait32 a o
     | 0x02 -> let a, o = memop s in memory_atomic_wait64 a o
     | 0x03 -> atomic_fence (ordering s)
+    | 0x04 -> pause
 
     | 0x10 -> let a, ord, o = memop_with_one_ordering s in i32_atomic_load a o ord
     | 0x11 -> let a, ord, o = memop_with_one_ordering s in i64_atomic_load a o ord
