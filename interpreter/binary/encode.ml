@@ -146,21 +146,32 @@ struct
   let vecop n = op 0xfd; u32 n
   let end_ () = op 0x0b
 
-  let memop ({align; offset; _} : (('t, 'p, 'o) memop)) = u32 (Int32.of_int align); u32 offset
-
-  let memop_with_ordering ({align; offset; ordering; _} : (('t, 'p, ordering) memop)) =
-    let ordering_bit = match ordering with
-      | AcqRel -> Int32.shift_left 1l 4
-      | SeqCst -> 0l
-    in
-    u32 (Int32.logor (Int32.of_int align) ordering_bit);
-    begin match ordering with
-      | AcqRel -> byte 1
-      (* No need to emit SeqCst since it's the default. *)
-      (* The align byte also leaves bit 4 unset indicating that no ordering immediate follows. *)
-      | SeqCst -> ()
-    end;
+  let memop ({align; offset; _} : ('t, 'p, 'o) memop) = 
+    u32 (Int32.of_int align); 
     u32 offset
+
+  (* handle_ordering returns the ordering byte to emit, if any *)
+  let memop_with_ordering
+       (({align; offset; ordering; _} : ('t, 'p, ordering) memop) as mo)
+       (handle_ordering : ordering -> int option) =
+    match handle_ordering ordering with
+    | Some ordering_byte -> 
+        u32 (Int32.logor (Int32.of_int align) 0x10l); 
+        byte ordering_byte; 
+        u32 offset
+    | None -> memop mo
+
+  let memop_with_one_ordering memop = 
+    memop_with_ordering memop (function
+      | SeqCst -> None 
+      | AcqRel -> Some 1
+    )
+
+  let memop_with_two_orderings memop = 
+    memop_with_ordering memop (function
+      | SeqCst -> None 
+      | AcqRel -> Some 0x11
+    )
 
   let var x = u32 x.it
 
@@ -324,132 +335,132 @@ struct
       end
 
     | AtomicLoad ({ty = I32Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x10; memop_with_ordering mo
+      op 0xfe; op 0x10; memop_with_one_ordering mo
     | AtomicLoad ({ty = I64Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x11; memop_with_ordering mo
+      op 0xfe; op 0x11; memop_with_one_ordering mo
     | AtomicLoad ({ty = I32Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x12; memop_with_ordering mo
+      op 0xfe; op 0x12; memop_with_one_ordering mo
     | AtomicLoad ({ty = I32Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x13; memop_with_ordering mo
+      op 0xfe; op 0x13; memop_with_one_ordering mo
     | AtomicLoad {ty = I32Type; pack = Some Pack32; _} -> assert false
     | AtomicLoad {ty = I32Type; pack = Some Pack64; _} -> assert false
     | AtomicLoad ({ty = I64Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x14; memop_with_ordering mo
+      op 0xfe; op 0x14; memop_with_one_ordering mo
     | AtomicLoad ({ty = I64Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x15; memop_with_ordering mo
+      op 0xfe; op 0x15; memop_with_one_ordering mo
     | AtomicLoad ({ty = I64Type; pack = Some Pack32; _} as mo) ->
-      op 0xfe; op 0x16; memop_with_ordering mo
+      op 0xfe; op 0x16; memop_with_one_ordering mo
     | AtomicLoad ({ty = I64Type; pack = Some Pack64; _}) -> assert false
     | AtomicLoad {ty = F32Type | F64Type; _} -> assert false
 
     | AtomicStore ({ty = I32Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x17; memop_with_ordering mo
+      op 0xfe; op 0x17; memop_with_one_ordering mo
     | AtomicStore ({ty = I64Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x18; memop_with_ordering mo
+      op 0xfe; op 0x18; memop_with_one_ordering mo
     | AtomicStore ({ty = I32Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x19; memop_with_ordering mo
+      op 0xfe; op 0x19; memop_with_one_ordering mo
     | AtomicStore ({ty = I32Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x1a; memop_with_ordering mo
+      op 0xfe; op 0x1a; memop_with_one_ordering mo
     | AtomicStore {ty = I32Type; pack = Some Pack32; _} -> assert false
     | AtomicStore {ty = I32Type; pack = Some Pack64; _} -> assert false
     | AtomicStore ({ty = I64Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x1b; memop_with_ordering mo
+      op 0xfe; op 0x1b; memop_with_one_ordering mo
     | AtomicStore ({ty = I64Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x1c; memop_with_ordering mo
+      op 0xfe; op 0x1c; memop_with_one_ordering mo
     | AtomicStore ({ty = I64Type; pack = Some Pack32; _} as mo) ->
-      op 0xfe; op 0x1d; memop_with_ordering mo
+      op 0xfe; op 0x1d; memop_with_one_ordering mo
     | AtomicStore ({ty = I64Type; pack = Some Pack64; _}) -> assert false
     | AtomicStore {ty = F32Type | F64Type; _} -> assert false
 
     | AtomicRmw (I32 I32Op.RmwAdd, ({ty = I32Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x1e; memop mo
+      op 0xfe; op 0x1e; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAdd, ({ty = I64Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x1f; memop mo
+      op 0xfe; op 0x1f; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwAdd, ({ty = I32Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x20; memop mo
+      op 0xfe; op 0x20; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwAdd, ({ty = I32Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x21; memop mo
+      op 0xfe; op 0x21; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAdd, ({ty = I64Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x22; memop mo
+      op 0xfe; op 0x22; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAdd, ({ty = I64Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x23; memop mo
+      op 0xfe; op 0x23; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAdd, ({ty = I64Type; pack = Some Pack32; _} as mo)) ->
-      op 0xfe; op 0x24; memop mo
+      op 0xfe; op 0x24; memop_with_two_orderings mo
 
     | AtomicRmw (I32 I32Op.RmwSub, ({ty = I32Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x25; memop mo
+      op 0xfe; op 0x25; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwSub, ({ty = I64Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x26; memop mo
+      op 0xfe; op 0x26; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwSub, ({ty = I32Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x27; memop mo
+      op 0xfe; op 0x27; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwSub, ({ty = I32Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x28; memop mo
+      op 0xfe; op 0x28; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwSub, ({ty = I64Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x29; memop mo
+      op 0xfe; op 0x29; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwSub, ({ty = I64Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x2a; memop mo
+      op 0xfe; op 0x2a; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwSub, ({ty = I64Type; pack = Some Pack32; _} as mo)) ->
-      op 0xfe; op 0x2b; memop mo
+      op 0xfe; op 0x2b; memop_with_two_orderings mo
 
     | AtomicRmw (I32 I32Op.RmwAnd, ({ty = I32Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x2c; memop mo
+      op 0xfe; op 0x2c; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAnd, ({ty = I64Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x2d; memop mo
+      op 0xfe; op 0x2d; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwAnd, ({ty = I32Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x2e; memop mo
+      op 0xfe; op 0x2e; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwAnd, ({ty = I32Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x2f; memop mo
+      op 0xfe; op 0x2f; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAnd, ({ty = I64Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x30; memop mo
+      op 0xfe; op 0x30; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAnd, ({ty = I64Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x31; memop mo
+      op 0xfe; op 0x31; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwAnd, ({ty = I64Type; pack = Some Pack32; _} as mo)) ->
-      op 0xfe; op 0x32; memop mo
+      op 0xfe; op 0x32; memop_with_two_orderings mo
 
     | AtomicRmw (I32 I32Op.RmwOr, ({ty = I32Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x33; memop mo
+      op 0xfe; op 0x33; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwOr, ({ty = I64Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x34; memop mo
+      op 0xfe; op 0x34; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwOr, ({ty = I32Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x35; memop mo
+      op 0xfe; op 0x35; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwOr, ({ty = I32Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x36; memop mo
+      op 0xfe; op 0x36; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwOr, ({ty = I64Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x37; memop mo
+      op 0xfe; op 0x37; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwOr, ({ty = I64Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x38; memop mo
+      op 0xfe; op 0x38; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwOr, ({ty = I64Type; pack = Some Pack32; _} as mo)) ->
-      op 0xfe; op 0x39; memop mo
+      op 0xfe; op 0x39; memop_with_two_orderings mo
 
     | AtomicRmw (I32 I32Op.RmwXor, ({ty = I32Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x3a; memop mo
+      op 0xfe; op 0x3a; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXor, ({ty = I64Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x3b; memop mo
+      op 0xfe; op 0x3b; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwXor, ({ty = I32Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x3c; memop mo
+      op 0xfe; op 0x3c; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwXor, ({ty = I32Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x3d; memop mo
+      op 0xfe; op 0x3d; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXor, ({ty = I64Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x3e; memop mo
+      op 0xfe; op 0x3e; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXor, ({ty = I64Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x3f; memop mo
+      op 0xfe; op 0x3f; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXor, ({ty = I64Type; pack = Some Pack32; _} as mo)) ->
-      op 0xfe; op 0x40; memop mo
+      op 0xfe; op 0x40; memop_with_two_orderings mo
 
     | AtomicRmw (I32 I32Op.RmwXchg, ({ty = I32Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x41; memop mo
+      op 0xfe; op 0x41; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXchg, ({ty = I64Type; pack = None; _} as mo)) ->
-      op 0xfe; op 0x42; memop mo
+      op 0xfe; op 0x42; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwXchg, ({ty = I32Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x43; memop mo
+      op 0xfe; op 0x43; memop_with_two_orderings mo
     | AtomicRmw (I32 I32Op.RmwXchg, ({ty = I32Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x44; memop mo
+      op 0xfe; op 0x44; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXchg, ({ty = I64Type; pack = Some Pack8; _} as mo)) ->
-      op 0xfe; op 0x45; memop mo
+      op 0xfe; op 0x45; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXchg, ({ty = I64Type; pack = Some Pack16; _} as mo)) ->
-      op 0xfe; op 0x46; memop mo
+      op 0xfe; op 0x46; memop_with_two_orderings mo
     | AtomicRmw (I64 I64Op.RmwXchg, ({ty = I64Type; pack = Some Pack32; _} as mo)) ->
-      op 0xfe; op 0x47; memop mo
+      op 0xfe; op 0x47; memop_with_two_orderings mo
 
     | AtomicRmw (I32 _, {ty = I64Type; _}) -> assert false
     | AtomicRmw (I64 _, {ty = I32Type; _}) -> assert false
@@ -460,21 +471,21 @@ struct
     | AtomicRmw (_, {ty = F32Type | F64Type; _}) -> assert false
 
     | AtomicRmwCmpXchg ({ty = I32Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x48; memop mo
+      op 0xfe; op 0x48; memop_with_two_orderings mo
     | AtomicRmwCmpXchg ({ty = I64Type; pack = None; _} as mo) ->
-      op 0xfe; op 0x49; memop mo
+      op 0xfe; op 0x49; memop_with_two_orderings mo
     | AtomicRmwCmpXchg ({ty = I32Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x4a; memop mo
+      op 0xfe; op 0x4a; memop_with_two_orderings mo
     | AtomicRmwCmpXchg ({ty = I32Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x4b; memop mo
+      op 0xfe; op 0x4b; memop_with_two_orderings mo
     | AtomicRmwCmpXchg {ty = I32Type; pack = Some Pack32; _} -> assert false
     | AtomicRmwCmpXchg {ty = I32Type; pack = Some Pack64; _} -> assert false
     | AtomicRmwCmpXchg ({ty = I64Type; pack = Some Pack8; _} as mo) ->
-      op 0xfe; op 0x4c; memop mo
+      op 0xfe; op 0x4c; memop_with_two_orderings mo
     | AtomicRmwCmpXchg ({ty = I64Type; pack = Some Pack16; _} as mo) ->
-      op 0xfe; op 0x4d; memop mo
+      op 0xfe; op 0x4d; memop_with_two_orderings mo
     | AtomicRmwCmpXchg ({ty = I64Type; pack = Some Pack32; _} as mo) ->
-      op 0xfe; op 0x4e; memop mo
+      op 0xfe; op 0x4e; memop_with_two_orderings mo
     | AtomicRmwCmpXchg ({ty = I64Type; pack = Some Pack64; _}) -> assert false
     | AtomicRmwCmpXchg {ty = F32Type | F64Type; _} -> assert false
 

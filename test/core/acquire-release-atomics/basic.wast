@@ -47,6 +47,153 @@
     (i64.atomic.store32 (i32.const 0) (i64.const 42))
     (i64.atomic.store32 acqrel (i32.const 0) (i64.const 42))
     (i64.atomic.store32 seqcst (i32.const 0) (i64.const 42))
+    (drop (i32.atomic.rmw.add (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.add acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.add seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw.add (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.add acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.add seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw8.add_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.add_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.add_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.add_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.add_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.add_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw8.add_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.add_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.add_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.add_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.add_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.add_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.add_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.add_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.add_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw.sub (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.sub acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.sub seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw.sub (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.sub acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.sub seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw8.sub_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.sub_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.sub_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.sub_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.sub_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.sub_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw8.sub_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.sub_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.sub_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.sub_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.sub_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.sub_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.sub_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.sub_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.sub_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw.and (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.and acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.and seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw.and (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.and acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.and seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw8.and_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.and_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.and_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.and_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.and_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.and_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw8.and_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.and_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.and_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.and_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.and_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.and_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.and_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.and_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.and_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw.or (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.or acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.or seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw.or (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.or acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.or seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw8.or_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.or_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.or_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.or_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.or_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.or_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw8.or_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.or_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.or_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.or_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.or_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.or_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.or_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.or_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.or_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw.xor (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.xor acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.xor seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw.xor (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.xor acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.xor seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw8.xor_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.xor_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.xor_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.xor_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.xor_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.xor_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw8.xor_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.xor_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.xor_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.xor_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.xor_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.xor_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.xor_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.xor_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.xor_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw.xchg (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.xchg acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw.xchg seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw.xchg (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.xchg acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw.xchg seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw8.xchg_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.xchg_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw8.xchg_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.xchg_u (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.xchg_u acqrel (i32.const 0) (i32.const 42)))
+    (drop (i32.atomic.rmw16.xchg_u seqcst (i32.const 0) (i32.const 42)))
+    (drop (i64.atomic.rmw8.xchg_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.xchg_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw8.xchg_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.xchg_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.xchg_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw16.xchg_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.xchg_u (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.xchg_u acqrel (i32.const 0) (i64.const 42)))
+    (drop (i64.atomic.rmw32.xchg_u seqcst (i32.const 0) (i64.const 42)))
+    (drop (i32.atomic.rmw.cmpxchg (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i32.atomic.rmw.cmpxchg acqrel (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i32.atomic.rmw.cmpxchg seqcst (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i64.atomic.rmw.cmpxchg (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw.cmpxchg acqrel (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw.cmpxchg seqcst (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i32.atomic.rmw8.cmpxchg_u (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i32.atomic.rmw8.cmpxchg_u acqrel (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i32.atomic.rmw8.cmpxchg_u seqcst (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i32.atomic.rmw16.cmpxchg_u (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i32.atomic.rmw16.cmpxchg_u acqrel (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i32.atomic.rmw16.cmpxchg_u seqcst (i32.const 0) (i32.const 42) (i32.const 42)))
+    (drop (i64.atomic.rmw8.cmpxchg_u (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw8.cmpxchg_u acqrel (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw8.cmpxchg_u seqcst (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw16.cmpxchg_u (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw16.cmpxchg_u acqrel (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw16.cmpxchg_u seqcst (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw32.cmpxchg_u (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw32.cmpxchg_u acqrel (i32.const 0) (i64.const 42) (i64.const 42)))
+    (drop (i64.atomic.rmw32.cmpxchg_u seqcst (i32.const 0) (i64.const 42) (i64.const 42)))
     (atomic.fence)
     (atomic.fence acqrel)
     (atomic.fence seqcst)
@@ -66,8 +213,8 @@
   "\03\02\01\00" ;; Function section
   "\05\04\01" ;; Memory section
     "\01\01\01" ;; (memory 1 1)
-  "\0a\e2\02\01" ;; Code section
-  "\df\02\00" ;; func $test-all-ops
+  "\0a\99\0e\01" ;; Code section
+  "\96\0e\00" ;; func $test-all-ops
 
     "\41\00" ;; (i32.const 0)
     "\fe\10" ;; i32.atomic.load
@@ -348,6 +495,1154 @@
     "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
     "\00" ;; seqcst memory ordering
     "\00" ;; offset
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\1e" ;; i32.atomic.rmw.add
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\1e" ;; i32.atomic.rmw.add
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\1e" ;; i32.atomic.rmw.add
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\1f" ;; i64.atomic.rmw.add
+    "\03" ;; Alignment of 3
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\1f" ;; i64.atomic.rmw.add
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\1f" ;; i64.atomic.rmw.add
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\20" ;; i32.atomic.rmw8.add_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\20" ;; i32.atomic.rmw8.add_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\20" ;; i32.atomic.rmw8.add_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\21" ;; i32.atomic.rmw16.add_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\21" ;; i32.atomic.rmw16.add_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\21" ;; i32.atomic.rmw16.add_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\22" ;; i64.atomic.rmw8.add_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\22" ;; i64.atomic.rmw8.add_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\22" ;; i64.atomic.rmw8.add_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\23" ;; i64.atomic.rmw16.add_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\23" ;; i64.atomic.rmw16.add_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\23" ;; i64.atomic.rmw16.add_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\24" ;; i64.atomic.rmw32.add_u
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\24" ;; i64.atomic.rmw32.add_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\24" ;; i64.atomic.rmw32.add_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\25" ;; i32.atomic.rmw.sub
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\25" ;; i32.atomic.rmw.sub
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\25" ;; i32.atomic.rmw.sub
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\26" ;; i64.atomic.rmw.sub
+    "\03" ;; Alignment of 3
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\26" ;; i64.atomic.rmw.sub
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\26" ;; i64.atomic.rmw.sub
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\27" ;; i32.atomic.rmw8.sub_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\27" ;; i32.atomic.rmw8.sub_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\27" ;; i32.atomic.rmw8.sub_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\28" ;; i32.atomic.rmw16.sub_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\28" ;; i32.atomic.rmw16.sub_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\28" ;; i32.atomic.rmw16.sub_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\29" ;; i64.atomic.rmw8.sub_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\29" ;; i64.atomic.rmw8.sub_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\29" ;; i64.atomic.rmw8.sub_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2a" ;; i64.atomic.rmw16.sub_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2a" ;; i64.atomic.rmw16.sub_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2a" ;; i64.atomic.rmw16.sub_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2b" ;; i64.atomic.rmw32.sub_u
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2b" ;; i64.atomic.rmw32.sub_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2b" ;; i64.atomic.rmw32.sub_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2c" ;; i32.atomic.rmw.and
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2c" ;; i32.atomic.rmw.and
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2c" ;; i32.atomic.rmw.and
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2d" ;; i64.atomic.rmw.and
+    "\03" ;; Alignment of 3
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2d" ;; i64.atomic.rmw.and
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\2d" ;; i64.atomic.rmw.and
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2e" ;; i32.atomic.rmw8.and_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2e" ;; i32.atomic.rmw8.and_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2e" ;; i32.atomic.rmw8.and_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2f" ;; i32.atomic.rmw16.and_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2f" ;; i32.atomic.rmw16.and_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\2f" ;; i32.atomic.rmw16.and_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\30" ;; i64.atomic.rmw8.and_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\30" ;; i64.atomic.rmw8.and_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\30" ;; i64.atomic.rmw8.and_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\31" ;; i64.atomic.rmw16.and_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\31" ;; i64.atomic.rmw16.and_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\31" ;; i64.atomic.rmw16.and_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\32" ;; i64.atomic.rmw32.and_u
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\32" ;; i64.atomic.rmw32.and_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\32" ;; i64.atomic.rmw32.and_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\33" ;; i32.atomic.rmw.or
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\33" ;; i32.atomic.rmw.or
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\33" ;; i32.atomic.rmw.or
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\34" ;; i64.atomic.rmw.or
+    "\03" ;; Alignment of 3
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\34" ;; i64.atomic.rmw.or
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\34" ;; i64.atomic.rmw.or
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\35" ;; i32.atomic.rmw8.or_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\35" ;; i32.atomic.rmw8.or_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\35" ;; i32.atomic.rmw8.or_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\36" ;; i32.atomic.rmw16.or_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\36" ;; i32.atomic.rmw16.or_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\36" ;; i32.atomic.rmw16.or_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\37" ;; i64.atomic.rmw8.or_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\37" ;; i64.atomic.rmw8.or_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\37" ;; i64.atomic.rmw8.or_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\38" ;; i64.atomic.rmw16.or_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\38" ;; i64.atomic.rmw16.or_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\38" ;; i64.atomic.rmw16.or_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\39" ;; i64.atomic.rmw32.or_u
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\39" ;; i64.atomic.rmw32.or_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\39" ;; i64.atomic.rmw32.or_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3a" ;; i32.atomic.rmw.xor
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3a" ;; i32.atomic.rmw.xor
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3a" ;; i32.atomic.rmw.xor
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3b" ;; i64.atomic.rmw.xor
+    "\03" ;; Alignment of 3
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3b" ;; i64.atomic.rmw.xor
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3b" ;; i64.atomic.rmw.xor
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3c" ;; i32.atomic.rmw8.xor_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3c" ;; i32.atomic.rmw8.xor_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3c" ;; i32.atomic.rmw8.xor_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3d" ;; i32.atomic.rmw16.xor_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3d" ;; i32.atomic.rmw16.xor_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\3d" ;; i32.atomic.rmw16.xor_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3e" ;; i64.atomic.rmw8.xor_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3e" ;; i64.atomic.rmw8.xor_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3e" ;; i64.atomic.rmw8.xor_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3f" ;; i64.atomic.rmw16.xor_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3f" ;; i64.atomic.rmw16.xor_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\3f" ;; i64.atomic.rmw16.xor_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\40" ;; i64.atomic.rmw32.xor_u
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\40" ;; i64.atomic.rmw32.xor_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\40" ;; i64.atomic.rmw32.xor_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\41" ;; i32.atomic.rmw.xchg
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\41" ;; i32.atomic.rmw.xchg
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\41" ;; i32.atomic.rmw.xchg
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\42" ;; i64.atomic.rmw.xchg
+    "\03" ;; Alignment of 3
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\42" ;; i64.atomic.rmw.xchg
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\42" ;; i64.atomic.rmw.xchg
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\43" ;; i32.atomic.rmw8.xchg_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\43" ;; i32.atomic.rmw8.xchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\43" ;; i32.atomic.rmw8.xchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\44" ;; i32.atomic.rmw16.xchg_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\44" ;; i32.atomic.rmw16.xchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\fe\44" ;; i32.atomic.rmw16.xchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\45" ;; i64.atomic.rmw8.xchg_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\45" ;; i64.atomic.rmw8.xchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\45" ;; i64.atomic.rmw8.xchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\46" ;; i64.atomic.rmw16.xchg_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\46" ;; i64.atomic.rmw16.xchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\46" ;; i64.atomic.rmw16.xchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\47" ;; i64.atomic.rmw32.xchg_u
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\47" ;; i64.atomic.rmw32.xchg_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\fe\47" ;; i64.atomic.rmw32.xchg_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\48" ;; i32.atomic.rmw.cmpxchg
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\48" ;; i32.atomic.rmw.cmpxchg
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\48" ;; i32.atomic.rmw.cmpxchg
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\49" ;; i64.atomic.rmw.cmpxchg
+    "\03" ;; Alignment of 3
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\49" ;; i64.atomic.rmw.cmpxchg
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\49" ;; i64.atomic.rmw.cmpxchg
+    "\13" ;; Alignment of 3 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\4a" ;; i32.atomic.rmw8.cmpxchg_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\4a" ;; i32.atomic.rmw8.cmpxchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\4a" ;; i32.atomic.rmw8.cmpxchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\4b" ;; i32.atomic.rmw16.cmpxchg_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\4b" ;; i32.atomic.rmw16.cmpxchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\41\33" ;; (i32.const 51)
+    "\41\33" ;; (i32.const 51)
+    "\fe\4b" ;; i32.atomic.rmw16.cmpxchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4c" ;; i64.atomic.rmw8.cmpxchg_u
+    "\00" ;; Alignment of 0
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4c" ;; i64.atomic.rmw8.cmpxchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4c" ;; i64.atomic.rmw8.cmpxchg_u
+    "\10" ;; Alignment of 0 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4d" ;; i64.atomic.rmw16.cmpxchg_u
+    "\01" ;; Alignment of 1
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4d" ;; i64.atomic.rmw16.cmpxchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4d" ;; i64.atomic.rmw16.cmpxchg_u
+    "\11" ;; Alignment of 1 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4e" ;; i64.atomic.rmw32.cmpxchg_u
+    "\02" ;; Alignment of 2
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4e" ;; i64.atomic.rmw32.cmpxchg_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\11" ;; acqrel memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
+
+    "\41\00" ;; (i32.const 0)
+    "\42\33" ;; (i64.const 51)
+    "\42\33" ;; (i64.const 51)
+    "\fe\4e" ;; i64.atomic.rmw32.cmpxchg_u
+    "\12" ;; Alignment of 2 with bit 4 set indicating that an ordering immediate follows
+    "\00" ;; seqcst memory ordering
+    "\00" ;; offset
+    "\1a" ;; drop
 
     "\fe\03" ;; atomic.fence
     "\01" ;; acqrel memory ordering
