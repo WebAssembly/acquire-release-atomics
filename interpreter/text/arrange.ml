@@ -566,6 +566,7 @@ let rec instr e =
     | MemoryAtomicWait op -> memoryatomicwaitop op, []
     | MemoryAtomicNotify op -> memoryatomicnotifyop op, []
     | AtomicFence ordering -> atomicfenceop ordering, []
+    | Pause -> "pause", []
     | AtomicLoad op -> atomicloadop op, []
     | AtomicStore op -> atomicstoreop op, []
     | AtomicRmw (rmwop, op) -> atomicrmwop op rmwop, []

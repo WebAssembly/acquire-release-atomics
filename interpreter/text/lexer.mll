@@ -264,6 +264,7 @@ rule token = parse
         MEMORY_ATOMIC_WAIT (fun a o ->
               (memory_atomic_wait64 (opt a 3)) o)
       | "atomic.fence" -> ATOMIC_FENCE
+      | "pause" -> PAUSE
       | "i32.atomic.load" ->
         ATOMIC_LOAD (fun a o ordering ->
             i32_atomic_load (opt a 2) o ordering)

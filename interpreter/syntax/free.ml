@@ -66,7 +66,7 @@ let block_type = function
 
 let rec instr (e : instr) =
   match e.it with
-  | Unreachable | Nop | Drop | Select _ -> empty
+  | Unreachable | Nop | Drop | Select _ | Pause -> empty
   | RefNull _ | RefIsNull -> empty
   | RefFunc x -> funcs (var x)
   | Const _ | Test _ | Compare _ | Unary _ | Binary _ | Convert _ -> empty

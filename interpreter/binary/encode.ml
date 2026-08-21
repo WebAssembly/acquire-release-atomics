@@ -334,6 +334,9 @@ struct
       | AcqRel -> byte 1
       end
 
+    | Pause ->
+      op 0xfe; op 0x04
+
     | AtomicLoad ({ty = I32Type; pack = None; _} as mo) ->
       op 0xfe; op 0x10; memop_with_one_ordering mo
     | AtomicLoad ({ty = I64Type; pack = None; _} as mo) ->
