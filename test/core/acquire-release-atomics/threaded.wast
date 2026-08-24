@@ -58,7 +58,7 @@
 )
 (register "mem" $Mem)
 
-(thread $writer (shared (module $Mem))
+(thread $write (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -73,7 +73,7 @@
   (invoke "run")
 )
 
-(thread $reader (shared (module $Mem))
+(thread $read (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -89,8 +89,8 @@
   (invoke "run")
 )
 
-(wait $writer)
-(wait $reader)
+(wait $write)
+(wait $read)
 
 (module
   (memory (import "mem" "shared") 1 1 shared)
@@ -115,7 +115,7 @@
 )
 (register "mem" $Mem)
 
-(thread $writer_flag (shared (module $Mem))
+(thread $write_flag (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -138,7 +138,7 @@
   (invoke "run")
 )
 
-(thread $reader_flag (shared (module $Mem))
+(thread $read_flag (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -159,8 +159,8 @@
   (invoke "run")
 )
 
-(wait $writer_flag)
-(wait $reader_flag)
+(wait $write_flag)
+(wait $read_flag)
 
 (module
   (memory (import "mem" "shared") 1 1 shared)
@@ -286,7 +286,7 @@
 )
 (register "mem" $Mem)
 
-(thread $writerX (shared (module $Mem))
+(thread $writeX (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -299,7 +299,7 @@
   (invoke "run")
 )
 
-(thread $writerY (shared (module $Mem))
+(thread $writeY (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -312,7 +312,7 @@
   (invoke "run")
 )
 
-(thread $reader1 (shared (module $Mem))
+(thread $read1 (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -327,7 +327,7 @@
   (invoke "run")
 )
 
-(thread $reader2 (shared (module $Mem))
+(thread $read2 (shared (module $Mem))
   (register "mem" $Mem)
 
   (module
@@ -342,10 +342,10 @@
   (invoke "run")
 )
 
-(wait $writerX)
-(wait $writerY)
-(wait $reader1)
-(wait $reader2)
+(wait $writeX)
+(wait $writeY)
+(wait $read1)
+(wait $read2)
 
 (module
   (memory (import "mem" "shared") 1 1 shared)
