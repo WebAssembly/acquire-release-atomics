@@ -1,11 +1,11 @@
 ;; Interleaving stores
-(module $Mem
+(module $Mem1
   (memory (export "shared") 1 1 shared)
 )
-(register "mem" $Mem)
+(register "mem" $Mem1)
 
-(thread $T1 (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $T1 (shared (module $Mem1))
+  (register "mem" $Mem1)
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
@@ -18,8 +18,8 @@
   (invoke "run")
 )
 
-(thread $T2 (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $T2 (shared (module $Mem1))
+  (register "mem" $Mem1)
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
@@ -53,13 +53,13 @@
 )
 
 ;; Critical section guarding an unordered memory access
-(module $Mem
+(module $Mem2
   (memory (export "shared") 1 1 shared)
 )
-(register "mem" $Mem)
+(register "mem" $Mem2)
 
-(thread $write (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $write (shared (module $Mem2))
+  (register "mem" $Mem2)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -73,8 +73,8 @@
   (invoke "run")
 )
 
-(thread $read (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $read (shared (module $Mem2))
+  (register "mem" $Mem2)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -110,13 +110,13 @@
 )
 
 ;; Similar to above, critical section guarding a flag
-(module $Mem
+(module $Mem3
   (memory (export "shared") 1 1 shared)
 )
-(register "mem" $Mem)
+(register "mem" $Mem3)
 
-(thread $write_flag (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $write_flag (shared (module $Mem3))
+  (register "mem" $Mem3)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -138,8 +138,8 @@
   (invoke "run")
 )
 
-(thread $read_flag (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $read_flag (shared (module $Mem3))
+  (register "mem" $Mem3)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -180,16 +180,16 @@
 )
 
 ;; Spinlock
-(module $Mem
+(module $Mem4
   ;; Address 0 - lock
   ;; Address 4 - payload
   (memory (export "shared") 1 1 shared)
 )
-(register "mem" $Mem)
+(register "mem" $Mem4)
 
 ;; Add 1 to the counter atomically
-(thread $addOne (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $addOne (shared (module $Mem4))
+  (register "mem" $Mem4)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -225,8 +225,8 @@
 )
 
 ;; Add 10 to the counter atomically
-(thread $addTen (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $addTen (shared (module $Mem4))
+  (register "mem" $Mem4)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -281,13 +281,13 @@
 )
 
 ;; independent reads of independent writes
-(module $Mem
+(module $Mem5
   (memory (export "shared") 1 1 shared)
 )
-(register "mem" $Mem)
+(register "mem" $Mem5)
 
-(thread $writeX (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $writeX (shared (module $Mem5))
+  (register "mem" $Mem5)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -299,8 +299,8 @@
   (invoke "run")
 )
 
-(thread $writeY (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $writeY (shared (module $Mem5))
+  (register "mem" $Mem5)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -312,8 +312,8 @@
   (invoke "run")
 )
 
-(thread $read1 (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $read1 (shared (module $Mem5))
+  (register "mem" $Mem5)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
@@ -327,8 +327,8 @@
   (invoke "run")
 )
 
-(thread $read2 (shared (module $Mem))
-  (register "mem" $Mem)
+(thread $read2 (shared (module $Mem5))
+  (register "mem" $Mem5)
 
   (module
     (memory (import "mem" "shared") 1 1 shared)
