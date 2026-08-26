@@ -9,6 +9,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; x =rel 1
       ;; y =rel 2
       (i32.atomic.store acqrel (i32.const 0) (i32.const 1))
@@ -23,6 +25,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; y =rel 3
       ;; x =rel 4
       (i32.atomic.store acqrel (i32.const 4) (i32.const 3))
@@ -32,6 +36,32 @@
   (invoke "run")
 )
 
+(thread $wake_Mem1 (shared (module $Mem1))
+  (register "mem" $Mem1)
+  (module
+    (memory (import "mem" "shared") 1 1 shared)
+    (func (export "wake") (local $woken i32)
+      (loop $spin1
+        (if (i32.eq (i32.atomic.load acqrel (i32.const 128)) (i32.const 2))
+          (then)
+          (else (pause) (br $spin1))
+        )
+      )
+      (loop $spin2
+        (local.set $woken 
+          (i32.add (local.get $woken) (memory.atomic.notify (i32.const 132) (i32.const 2)))
+        )
+        (if (i32.ge_u (local.get $woken) (i32.const 2))
+          (then (return))
+        )
+        (pause)
+        (br $spin2)
+      )
+    )
+  )
+  (invoke "wake")
+)
+(wait $wake_Mem1)
 (wait $T1)
 (wait $T2)
 
@@ -64,6 +94,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; payload =un 42
       (i32.store (i32.const 4) (i32.const 42))
       ;; flag =rel 1 indicating that the payload was written
@@ -79,6 +111,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; observed_flag =acq flag
       (i32.store (i32.const 8) (i32.atomic.load acqrel (i32.const 0)))
 
@@ -89,6 +123,32 @@
   (invoke "run")
 )
 
+(thread $wake_Mem2 (shared (module $Mem2))
+  (register "mem" $Mem2)
+  (module
+    (memory (import "mem" "shared") 1 1 shared)
+    (func (export "wake") (local $woken i32)
+      (loop $spin1
+        (if (i32.eq (i32.atomic.load acqrel (i32.const 128)) (i32.const 2))
+          (then)
+          (else (pause) (br $spin1))
+        )
+      )
+      (loop $spin2
+        (local.set $woken 
+          (i32.add (local.get $woken) (memory.atomic.notify (i32.const 132) (i32.const 2)))
+        )
+        (if (i32.ge_u (local.get $woken) (i32.const 2))
+          (then (return))
+        )
+        (pause)
+        (br $spin2)
+      )
+    )
+  )
+  (invoke "wake")
+)
+(wait $wake_Mem2)
 (wait $write)
 (wait $read)
 
@@ -121,6 +181,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; payload =un 42
       (i32.store (i32.const 4) (i32.const 42))
 
@@ -144,6 +206,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; A relaxed ordering would be sufficient here but we don't have it.
       ;; In practice this and the fence together are redundant.
       ;; observed_flag =acq flag
@@ -159,6 +223,32 @@
   (invoke "run")
 )
 
+(thread $wake_Mem3 (shared (module $Mem3))
+  (register "mem" $Mem3)
+  (module
+    (memory (import "mem" "shared") 1 1 shared)
+    (func (export "wake") (local $woken i32)
+      (loop $spin1
+        (if (i32.eq (i32.atomic.load acqrel (i32.const 128)) (i32.const 2))
+          (then)
+          (else (pause) (br $spin1))
+        )
+      )
+      (loop $spin2
+        (local.set $woken 
+          (i32.add (local.get $woken) (memory.atomic.notify (i32.const 132) (i32.const 2)))
+        )
+        (if (i32.ge_u (local.get $woken) (i32.const 2))
+          (then (return))
+        )
+        (pause)
+        (br $spin2)
+      )
+    )
+  )
+  (invoke "wake")
+)
+(wait $wake_Mem3)
 (wait $write_flag)
 (wait $read_flag)
 
@@ -211,6 +301,8 @@
     )
 
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       (call $lock)
       
       ;; payload +=un 1
@@ -248,6 +340,8 @@
     )
 
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       (call $lock)
       
       ;; payload +=un 10
@@ -261,6 +355,32 @@
   (invoke "run")
 )
 
+(thread $wake_Mem4 (shared (module $Mem4))
+  (register "mem" $Mem4)
+  (module
+    (memory (import "mem" "shared") 1 1 shared)
+    (func (export "wake") (local $woken i32)
+      (loop $spin1
+        (if (i32.eq (i32.atomic.load acqrel (i32.const 128)) (i32.const 2))
+          (then)
+          (else (pause) (br $spin1))
+        )
+      )
+      (loop $spin2
+        (local.set $woken 
+          (i32.add (local.get $woken) (memory.atomic.notify (i32.const 132) (i32.const 2)))
+        )
+        (if (i32.ge_u (local.get $woken) (i32.const 2))
+          (then (return))
+        )
+        (pause)
+        (br $spin2)
+      )
+    )
+  )
+  (invoke "wake")
+)
+(wait $wake_Mem4)
 (wait $addOne)
 (wait $addTen)
 
@@ -292,6 +412,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; x =rel 1
       (i32.atomic.store acqrel (i32.const 0) (i32.const 1))
     )
@@ -305,6 +427,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; y =rel 1
       (i32.atomic.store acqrel (i32.const 4) (i32.const 1))
     )
@@ -318,6 +442,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; x1 =acq x
       ;; y1 =acq y
       (i32.store (i32.const 8) (i32.atomic.load acqrel (i32.const 0)))
@@ -333,6 +459,8 @@
   (module
     (memory (import "mem" "shared") 1 1 shared)
     (func (export "run")
+      (drop (i32.atomic.rmw.add acqrel (i32.const 128) (i32.const 1)))
+      (drop (memory.atomic.wait32 (i32.const 132) (i32.const 0) (i64.const -1)))
       ;; y2 =acq y
       ;; x2 =acq x
       (i32.store (i32.const 20) (i32.atomic.load acqrel (i32.const 4)))
@@ -342,6 +470,32 @@
   (invoke "run")
 )
 
+(thread $wake_Mem5 (shared (module $Mem5))
+  (register "mem" $Mem5)
+  (module
+    (memory (import "mem" "shared") 1 1 shared)
+    (func (export "wake") (local $woken i32)
+      (loop $spin1
+        (if (i32.eq (i32.atomic.load acqrel (i32.const 128)) (i32.const 4))
+          (then)
+          (else (pause) (br $spin1))
+        )
+      )
+      (loop $spin2
+        (local.set $woken 
+          (i32.add (local.get $woken) (memory.atomic.notify (i32.const 132) (i32.const 4)))
+        )
+        (if (i32.ge_u (local.get $woken) (i32.const 4))
+          (then (return))
+        )
+        (pause)
+        (br $spin2)
+      )
+    )
+  )
+  (invoke "wake")
+)
+(wait $wake_Mem5)
 (wait $writeX)
 (wait $writeY)
 (wait $read1)
