@@ -34,12 +34,15 @@ We introduce `acqrel` (acquire-release) as a new memory ordering.
 
 #### Binary Format (Memory Accesses)
 
-For instructions that operate on linear memory and use a `memarg` immediate, we utilize bit 4 of the `memarg` flag byte to indicate the presence of an ordering immediate.
+For instructions that operate on linear memory and use a `memarg` immediate, we utilize bit 4 (`0x10`) of the `memarg` flags `u32` immediate to indicate the presence of an ordering immediate:
 
-- If bit 4 of `memarg` is **0**: The instruction defaults to sequentially consistent (`seqcst`) ordering (maintaining backward compatibility with the threads proposal).
-- If bit 4 of `memarg` is **1**: An ordering immediate follows the `memarg` (and follows the memory index immediate, if present).
+- If bit 4 of `flags` is **0**: No ordering immediate is present, and the instruction defaults to sequentially consistent (`seqcst`) ordering (maintaining backward compatibility with the threads proposal).
+- If bit 4 of `flags` is **1**: A `u8` ordering immediate is encoded after `flags` (and after the `memidx` immediate, if bit 6 is set) and before `offset`:
+  ```
+  memarg ::= flags:u32 [memidx:u32] [ordering:u8] offset:u32
+  ```
 
-It is a validation error if there is an ordering immediate present for any non-atomic instruction that uses a `memarg` (such as standard loads and stores).
+It is a decode/parse error (malformed module) if bit 4 of `flags` is set for any non-atomic instruction that uses a `memarg` (such as standard loads and stores).
 
 The ordering immediate is encoded as a `u8`:
 
@@ -63,6 +66,27 @@ For other atomic operations (loads, stores), the low 4 bits encode the ordering,
 The `atomic.fence` instruction, which previously took a reserved `0x00` byte immediate, now interprets this byte as a `u8` ordering immediate.
 - `0x00` represents a `seqcst` fence.
 - `0x01` represents an `acqrel` fence.
+
+#### Text Format Syntax
+
+In the text format, an optional `ordering` keyword immediate (`seqcst` or `acqrel`, defaulting to `seqcst` if omitted) may be specified on atomic instructions. For linear memory atomic instructions, the optional ordering immediate follows the optional memory index immediate (`$mem`) and precedes any `offset=N` or `align=N` immediates:
+
+```wat
+;; Atomic Load
+(i32.atomic.load [$mem] [ordering] [offset=N] [align=N] (local.get $address))
+
+;; Atomic Store
+(i32.atomic.store [$mem] [ordering] [offset=N] [align=N] (local.get $address) (local.get $val))
+
+;; Atomic RMW
+(i32.atomic.rmw.add [$mem] [ordering] [offset=N] [align=N] (local.get $address) (local.get $val))
+
+;; Atomic Cmpxchg
+(i32.atomic.rmw.cmpxchg [$mem] [ordering] [offset=N] [align=N] (local.get $address) (local.get $expected) (local.get $replacement))
+
+;; Atomic Fence
+(atomic.fence [ordering])
+```
 
 ### Spinlock Relaxation: `pause`
 
