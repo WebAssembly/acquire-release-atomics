@@ -37,9 +37,9 @@ We introduce `acqrel` (acquire-release) as a new memory ordering.
 For instructions that operate on linear memory and use a `memarg` immediate, we utilize bit 4 (`0x10`) of the `memarg` flags `u32` immediate to indicate the presence of an ordering immediate:
 
 - If bit 4 of `flags` is **0**: No ordering immediate is present, and the instruction defaults to sequentially consistent (`seqcst`) ordering (maintaining backward compatibility with the threads proposal).
-- If bit 4 of `flags` is **1**: A `u8` ordering immediate is encoded after `flags` (and after the `memidx` immediate, if bit 6 is set) and before `offset`:
+- If bit 4 of `flags` is **1**: A `u8` ordering immediate is encoded after `flags` (and after the `memidx` or `typeidx`[^multibyte] immediate, if bit 5 or 6 is set) and before `offset`:
   ```
-  memarg ::= flags:u32 [memidx:u32] [ordering:u8] offset:u32
+  memarg ::= flags:u32 [memidx:u32 | typeidx:u32] [ordering:u8] offset:u32
   ```
 
 It is a decode/parse error (malformed module) if bit 4 of `flags` is set for any non-atomic instruction that uses a `memarg` (such as standard loads and stores).
@@ -69,24 +69,26 @@ The `atomic.fence` instruction, which previously took a reserved `0x00` byte imm
 
 #### Text Format Syntax
 
-In the text format, an optional `ordering` keyword immediate (`seqcst` or `acqrel`, defaulting to `seqcst` if omitted) may be specified on atomic instructions. For linear memory atomic instructions, the optional ordering immediate follows the optional memory index immediate (`$mem`) and precedes any `offset=N` or `align=N` immediates:
+In the text format, an optional `ordering` keyword immediate (`seqcst` or `acqrel`, defaulting to `seqcst` if omitted) may be specified on atomic instructions. For memory atomic instructions, the optional ordering immediate follows the optional memory index (`$mem`) or array type (`(type $t)`)[^multibyte] immediate and precedes any `offset=N` or `align=N` immediates:
 
 ```wat
 ;; Atomic Load
-(i32.atomic.load [$mem] [ordering] [offset=N] [align=N] (local.get $address))
+(i32.atomic.load [$mem | (type $t)] [ordering] [offset=N] [align=N] ...)
 
 ;; Atomic Store
-(i32.atomic.store [$mem] [ordering] [offset=N] [align=N] (local.get $address) (local.get $val))
+(i32.atomic.store [$mem | (type $t)] [ordering] [offset=N] [align=N] ...)
 
 ;; Atomic RMW
-(i32.atomic.rmw.add [$mem] [ordering] [offset=N] [align=N] (local.get $address) (local.get $val))
+(i32.atomic.rmw.add [$mem | (type $t)] [ordering] [offset=N] [align=N] ...)
 
 ;; Atomic Cmpxchg
-(i32.atomic.rmw.cmpxchg [$mem] [ordering] [offset=N] [align=N] (local.get $address) (local.get $expected) (local.get $replacement))
+(i32.atomic.rmw.cmpxchg [$mem | (type $t)] [ordering] [offset=N] [align=N] ...)
 
 ;; Atomic Fence
 (atomic.fence [ordering])
 ```
+
+[^multibyte]: The `typeidx` immediate (`(type $t)` in the text format) and bit 5 of `flags` are defined by the [multibyte-array-access](https://github.com/WebAssembly/multibyte-array-access) proposal.
 
 ### Spinlock Relaxation: `pause`
 
